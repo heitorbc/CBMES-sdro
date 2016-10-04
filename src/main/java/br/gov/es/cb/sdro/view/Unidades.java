@@ -16,6 +16,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Unidades extends javax.swing.JInternalFrame {
 
+    List<Unidade> lista = new UnidadesDAO().buscaUnidades();
+
     /**
      * Creates new form Unidades
      */
@@ -28,7 +30,6 @@ public class Unidades extends javax.swing.JInternalFrame {
             modeloTable.removeRow(0);
         }
 
-        List<Unidade> lista = new UnidadesDAO().buscaUnidades();
         for (Unidade unidadeaux : lista) {
             //adiciona unidades na tabela
             modeloTable.addRow(new Object[]{unidadeaux.getIdunidade(), unidadeaux.getNome(), unidadeaux.getIdcomandante(), unidadeaux.getIdsubcomandante()});
@@ -199,7 +200,7 @@ public class Unidades extends javax.swing.JInternalFrame {
         btn_salvar.setText("Salvar");
         jPanel2.add(btn_salvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 300, -1, -1));
 
-        abas_unidade.addTab("Cadastrar", jPanel2);
+        abas_unidade.addTab("Cadastrar/Alterar", jPanel2);
 
         getContentPane().add(abas_unidade, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 370));
 
@@ -212,8 +213,10 @@ public class Unidades extends javax.swing.JInternalFrame {
 
     private void tbl_unidadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_unidadesMouseClicked
         //captura a linha selecionada para a tela de cadastro
-        System.out.println();
-        abas_unidade.isEnabledAt(1);
+        System.out.println(tbl_unidades.getSelectedRow() + 1);
+        abas_unidade.setSelectedIndex(1);
+
+        txt_nome_unidade.setText(lista.get(tbl_unidades.getSelectedRow()).getNome());
     }//GEN-LAST:event_tbl_unidadesMouseClicked
 
 
