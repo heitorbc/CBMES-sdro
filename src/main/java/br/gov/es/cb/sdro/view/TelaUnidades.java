@@ -6,6 +6,8 @@
 package br.gov.es.cb.sdro.view;
 
 import br.gov.es.cb.sdro.model.Unidade;
+import br.gov.es.cb.sdro.model.SafoPostoGraducao;
+import br.gov.es.cb.sdro.util.SafoPostoGraduacaoDAO;
 import br.gov.es.cb.sdro.util.UnidadesDAO;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -14,16 +16,21 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Heitor
  */
-public class Unidades extends javax.swing.JInternalFrame {
+public class TelaUnidades extends javax.swing.JInternalFrame {
 
     List<Unidade> lista = new UnidadesDAO().buscaUnidades();
+    List<SafoPostoGraducao> listaPG = new SafoPostoGraduacaoDAO().buscaSafoPostoGraducaos();
 
     /**
      * Creates new form Unidades
      */
-    public Unidades() {
+    public TelaUnidades() {
         initComponents();
         this.setVisible(true);
+        cmb_postograd_cmt.removeAllItems();
+        for (SafoPostoGraducao pgaux : listaPG) {
+            cmb_postograd_cmt.addItem(pgaux.getAbreviacao());
+        }
 
         DefaultTableModel modeloTable = (DefaultTableModel) tbl_unidades.getModel();
         while (modeloTable.getRowCount() > 0) {
@@ -217,6 +224,8 @@ public class Unidades extends javax.swing.JInternalFrame {
         abas_unidade.setSelectedIndex(1);
 
         txt_nome_unidade.setText(lista.get(tbl_unidades.getSelectedRow()).getNome());
+
+
     }//GEN-LAST:event_tbl_unidadesMouseClicked
 
 

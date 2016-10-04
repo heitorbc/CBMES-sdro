@@ -109,7 +109,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        jDesktopPane1.add(new Unidades());
+        jDesktopPane1.add(new TelaUnidades());
         
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
