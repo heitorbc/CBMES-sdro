@@ -35,6 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Unidade.findByIdcomandante", query = "SELECT u FROM Unidade u WHERE u.idcomandante = :idcomandante"),
     @NamedQuery(name = "Unidade.findByIdsubcomandante", query = "SELECT u FROM Unidade u WHERE u.idsubcomandante = :idsubcomandante")})
 public class Unidade implements Serializable {
+
+    @OneToMany(mappedBy = "idunidade")
+    private List<Equipe> equipeList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -151,6 +154,15 @@ public class Unidade implements Serializable {
     @Override
     public String toString() {
         return "br.gov.es.cb.sdro.model.Unidade[ idunidade=" + idunidade + " ]";
+    }
+
+    @XmlTransient
+    public List<Equipe> getEquipeList() {
+        return equipeList;
+    }
+
+    public void setEquipeList(List<Equipe> equipeList) {
+        this.equipeList = equipeList;
     }
     
 }

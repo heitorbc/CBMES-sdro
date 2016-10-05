@@ -5,11 +5,14 @@
  */
 package br.gov.es.cb.sdro.view;
 
+import br.gov.es.cb.sdro.model.Militar;
 import br.gov.es.cb.sdro.model.Unidade;
 import br.gov.es.cb.sdro.model.SafoPostoGraducao;
+import br.gov.es.cb.sdro.util.MilitarDAO;
 import br.gov.es.cb.sdro.util.SafoPostoGraduacaoDAO;
 import br.gov.es.cb.sdro.util.UnidadesDAO;
 import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -18,8 +21,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TelaUnidades extends javax.swing.JInternalFrame {
 
-    List<Unidade> lista = new UnidadesDAO().buscaUnidades();
+    DefaultTableModel modeloTable = new DefaultTableModel();
+    DefaultListModel modelList = new DefaultListModel();
+
+    List<Unidade> listaUnidade= new UnidadesDAO().buscaUnidades();
     List<SafoPostoGraducao> listaPG = new SafoPostoGraduacaoDAO().buscaSafoPostoGraducaos();
+    List<Militar> listaMil = new MilitarDAO().buscaMilitars();
+    
 
     /**
      * Creates new form Unidades
@@ -27,17 +35,41 @@ public class TelaUnidades extends javax.swing.JInternalFrame {
     public TelaUnidades() {
         initComponents();
         this.setVisible(true);
-        cmb_postograd_cmt.removeAllItems();
-        for (SafoPostoGraducao pgaux : listaPG) {
-            cmb_postograd_cmt.addItem(pgaux.getAbreviacao());
+        
+       /* List<Militar> listaMilGrad = new MilitarDAO().buscaMilitarsPorGraducao("1");
+        for (Militar militar : listaMilGrad) {
+            System.out.println(militar.getIdmilitar());
         }
+        */
+        //define o modelo da tabela utilizada para exibir as unidades
+        modeloTable = (DefaultTableModel) tbl_unidades.getModel();
 
-        DefaultTableModel modeloTable = (DefaultTableModel) tbl_unidades.getModel();
+        //remover itens exitentes nos campos da tela
+        cmb_postograd_cmt.removeAllItems();
+        cmb_postograd_subcmt.removeAllItems();
+        cmb_mil_cmt.removeAllItems();
+        list_postograd_cmt.removeAll();
+        list_postograd_subcmt.removeAll();
         while (modeloTable.getRowCount() > 0) {
             modeloTable.removeRow(0);
         }
 
-        for (Unidade unidadeaux : lista) {
+        
+        //adiciona posto/graduacao nos campos
+        for (SafoPostoGraducao pgaux : listaPG) {
+            cmb_postograd_cmt.addItem(pgaux.getAbreviacao());
+            cmb_postograd_subcmt.addItem(pgaux.getAbreviacao());
+        }
+
+        //REMOVER###############################################################
+        //seta o tipo lista correto
+        this.list_postograd_cmt.setModel(modelList);
+        this.list_postograd_subcmt.setModel(modelList);
+
+        
+        
+
+        for (Unidade unidadeaux : listaUnidade) {
             //adiciona unidades na tabela
             modeloTable.addRow(new Object[]{unidadeaux.getIdunidade(), unidadeaux.getNome(), unidadeaux.getIdcomandante(), unidadeaux.getIdsubcomandante()});
             //Imprime textual
@@ -76,6 +108,7 @@ public class TelaUnidades extends javax.swing.JInternalFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         list_postograd_subcmt = new javax.swing.JList();
         btn_salvar = new javax.swing.JButton();
+        cmb_mil_cmt = new javax.swing.JComboBox<>();
 
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -166,7 +199,27 @@ public class TelaUnidades extends javax.swing.JInternalFrame {
         jPanel2.add(lbl_cmt, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
         cmb_postograd_cmt.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel2.add(cmb_postograd_cmt, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 100, -1));
+        cmb_postograd_cmt.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmb_postograd_cmtItemStateChanged(evt);
+            }
+        });
+        cmb_postograd_cmt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cmb_postograd_cmtMouseClicked(evt);
+            }
+        });
+        cmb_postograd_cmt.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                cmb_postograd_cmtPropertyChange(evt);
+            }
+        });
+        cmb_postograd_cmt.addVetoableChangeListener(new java.beans.VetoableChangeListener() {
+            public void vetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {
+                cmb_postograd_cmtVetoableChange(evt);
+            }
+        });
+        jPanel2.add(cmb_postograd_cmt, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 130, -1));
 
         lbl_postoGrad_cmt.setText("Posto/Graduação");
         jPanel2.add(lbl_postoGrad_cmt, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, -1, -1));
@@ -176,9 +229,10 @@ public class TelaUnidades extends javax.swing.JInternalFrame {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        list_postograd_cmt.setAutoscrolls(false);
         jScrollPane2.setViewportView(list_postograd_cmt);
 
-        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 110, 180, 60));
+        jPanel2.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 40, 180, 30));
 
         lbl_subcmt.setText("SubComandante");
         jPanel2.add(lbl_subcmt, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, -1, -1));
@@ -187,10 +241,10 @@ public class TelaUnidades extends javax.swing.JInternalFrame {
         jPanel2.add(lbl_postoGrad_subcmt, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, -1, -1));
 
         cmb_postograd_subcmt.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel2.add(cmb_postograd_subcmt, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 210, 100, -1));
+        jPanel2.add(cmb_postograd_subcmt, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 210, 130, -1));
 
         lbl_militar_cmt.setText("Militar");
-        jPanel2.add(lbl_militar_cmt, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 110, -1, -1));
+        jPanel2.add(lbl_militar_cmt, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 110, -1, -1));
 
         lbl_militar_subcmt.setText("Militar");
         jPanel2.add(lbl_militar_subcmt, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 210, -1, -1));
@@ -202,10 +256,13 @@ public class TelaUnidades extends javax.swing.JInternalFrame {
         });
         jScrollPane3.setViewportView(list_postograd_subcmt);
 
-        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 210, 180, 60));
+        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 240, 180, 90));
 
         btn_salvar.setText("Salvar");
-        jPanel2.add(btn_salvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 300, -1, -1));
+        jPanel2.add(btn_salvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 310, -1, -1));
+
+        cmb_mil_cmt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel2.add(cmb_mil_cmt, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 110, 220, -1));
 
         abas_unidade.addTab("Cadastrar/Alterar", jPanel2);
 
@@ -220,18 +277,43 @@ public class TelaUnidades extends javax.swing.JInternalFrame {
 
     private void tbl_unidadesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_unidadesMouseClicked
         //captura a linha selecionada para a tela de cadastro
-        System.out.println(tbl_unidades.getSelectedRow() + 1);
+        //System.out.println(tbl_unidades.getSelectedRow() + 1);
         abas_unidade.setSelectedIndex(1);
 
-        txt_nome_unidade.setText(lista.get(tbl_unidades.getSelectedRow()).getNome());
+        txt_nome_unidade.setText(listaUnidade.get(tbl_unidades.getSelectedRow()).getNome());
 
 
     }//GEN-LAST:event_tbl_unidadesMouseClicked
+
+    private void cmb_postograd_cmtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cmb_postograd_cmtMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_cmb_postograd_cmtMouseClicked
+
+    private void cmb_postograd_cmtVetoableChange(java.beans.PropertyChangeEvent evt)throws java.beans.PropertyVetoException {//GEN-FIRST:event_cmb_postograd_cmtVetoableChange
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_cmb_postograd_cmtVetoableChange
+
+    private void cmb_postograd_cmtPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_cmb_postograd_cmtPropertyChange
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_cmb_postograd_cmtPropertyChange
+
+    private void cmb_postograd_cmtItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmb_postograd_cmtItemStateChanged
+        // TODO add your handling code here:
+        System.out.println(cmb_postograd_cmt.getSelectedItem());
+        for (Militar mil : listaMil) {
+            cmb_mil_cmt.addItem(mil.getIdmilitar().toString());
+        }
+
+    }//GEN-LAST:event_cmb_postograd_cmtItemStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane abas_unidade;
     private javax.swing.JButton btn_salvar;
+    private javax.swing.JComboBox<String> cmb_mil_cmt;
     private javax.swing.JComboBox cmb_postograd_cmt;
     private javax.swing.JComboBox cmb_postograd_subcmt;
     private javax.swing.JLabel jLabel1;

@@ -28,4 +28,11 @@ public class MilitarDAO extends AbstractDAO<Militar>{
         listaMilitars = (List<Militar>) buscaListaSemParametro();
         return listaMilitars;
     }
+    
+    public List<Militar> buscaMilitarsPorGraducao(String nome){
+        busca = "Militar.findByPostoGraducao";
+        parametro = "idgraducao";
+        listaMilitars = (List<Militar>) buscaListaComParametro(nome);
+        return listaMilitars;
+    }
 }

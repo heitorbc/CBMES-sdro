@@ -35,6 +35,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Equipe.findByIdequipe", query = "SELECT e FROM Equipe e WHERE e.idequipe = :idequipe"),
     @NamedQuery(name = "Equipe.findByDescricao", query = "SELECT e FROM Equipe e WHERE e.descricao = :descricao")})
 public class Equipe implements Serializable {
+
+    @JoinColumn(name = "idunidade", referencedColumnName = "idunidade")
+    @ManyToOne
+    private Unidade idunidade;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -134,6 +138,14 @@ public class Equipe implements Serializable {
     @Override
     public String toString() {
         return "br.gov.es.cb.sdro.model.Equipe[ idequipe=" + idequipe + " ]";
+    }
+
+    public Unidade getIdunidade() {
+        return idunidade;
+    }
+
+    public void setIdunidade(Unidade idunidade) {
+        this.idunidade = idunidade;
     }
     
 }
