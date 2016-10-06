@@ -5,6 +5,7 @@
  */
 package br.gov.es.cb.sdro.view;
 
+import br.gov.es.cb.sdro.control.ControlMilitarAdapter;
 import br.gov.es.cb.sdro.model.Militar;
 import br.gov.es.cb.sdro.model.MilitarAdapter;
 import br.gov.es.cb.sdro.model.Unidade;
@@ -22,6 +23,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Heitor
  */
 public class TelaUnidades extends javax.swing.JInternalFrame {
+
+    private ControlMilitarAdapter controlMilitar;
 
     MilitarAdapter miladap;
     List<MilitarAdapter> listMilAdap = new ArrayList();
@@ -299,8 +302,8 @@ public class TelaUnidades extends javax.swing.JInternalFrame {
         abas_unidade.setSelectedIndex(1);
 
         txt_nome_unidade.setText(listaUnidade.get(tbl_unidades.getSelectedRow()).getNome());
-        cmb_mil_cmt.addItem(miladap.getMilitarById(listaUnidade.get(tbl_unidades.getSelectedRow()).getIdcomandante()).getNome());
-        cmb_mil_subcmt.addItem(miladap.getMilitarById(listaUnidade.get(tbl_unidades.getSelectedRow()).getIdsubcomandante()).getNome());
+        cmb_mil_cmt.addItem(controlMilitar.getMilitarbyId(listaUnidade.get(tbl_unidades.getSelectedRow()).getIdcomandante()).getNome());
+        cmb_mil_subcmt.addItem(controlMilitar.getMilitarbyId(listaUnidade.get(tbl_unidades.getSelectedRow()).getIdsubcomandante()).getNome());
 
     }//GEN-LAST:event_tbl_unidadesMouseClicked
 
@@ -397,4 +400,7 @@ public class TelaUnidades extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txt_nome_unidade;
     // End of variables declaration//GEN-END:variables
 
+    public void inicializa(ControlMilitarAdapter controlMilitar){
+        this.controlMilitar = controlMilitar;
+    }
 }

@@ -5,17 +5,22 @@
  */
 package br.gov.es.cb.sdro.view;
 
+import br.gov.es.cb.sdro.control.ControlMilitarAdapter;
+
 /**
  *
  * @author Heitor
  */
 public class Principal extends javax.swing.JFrame {
 
+    private ControlMilitarAdapter controlMilitar;
+
     /**
      * Creates new form principal
      */
     public Principal() {
         initComponents();
+       
     }
 
     /**
@@ -109,8 +114,10 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-        jDesktopPane1.add(new TelaUnidades());
-        
+        TelaUnidades telaUnidades = new TelaUnidades();
+        telaUnidades.inicializa(controlMilitar);
+        jDesktopPane1.add(telaUnidades);
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
@@ -163,4 +170,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+
+    public void iniializa(ControlMilitarAdapter controlMilitar){
+        this.controlMilitar = controlMilitar;
+    }
 }
+

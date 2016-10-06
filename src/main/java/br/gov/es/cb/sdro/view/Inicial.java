@@ -5,21 +5,21 @@
  */
 package br.gov.es.cb.sdro.view;
 
-import br.gov.es.cb.sdro.model.MilitarAdapter;
-import java.util.List;
+import br.gov.es.cb.sdro.control.ControlMilitarAdapter;
+
 
 /**
  *
  * @author Heitor
  */
 public class Inicial extends javax.swing.JFrame {
-
+    private ControlMilitarAdapter controlMilitar;
     /**
      * Creates new form inicial
      */
     public Inicial() {
         initComponents();
-        
+        controlMilitar = new ControlMilitarAdapter();
         
         
         //TEstes carregamento militarAdapter
@@ -204,7 +204,9 @@ public class Inicial extends javax.swing.JFrame {
 
     private void btn_logarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logarActionPerformed
         //validação de login e senha!
-        new Principal().setVisible(true);
+        Principal principal = new Principal();
+        principal.iniializa(controlMilitar);
+        principal.setVisible(true);
         this.setVisible(false);
        
     }//GEN-LAST:event_btn_logarActionPerformed

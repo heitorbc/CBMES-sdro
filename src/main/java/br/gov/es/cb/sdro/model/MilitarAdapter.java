@@ -80,7 +80,20 @@ public class MilitarAdapter {
     public List<MilitarAdapter> getAllMilitarAdapter() {
         int contador = 1;
         List<MilitarAdapter> listaReturn = new ArrayList<>();
-        while (getMilitarById(contador) != null) {
+        //while (getMilitarById(contador) != null) {
+        
+        /*
+        ########################################
+        ########################################
+        ############   REMOVER   ###############
+        ########################################
+        ########################################
+        
+        
+        */
+        
+        //reduz consulta militar pra 100 pela demora de consulta
+        while (contador < 100) {
             //System.out.println(contador);
             listaReturn.add(getMilitarById(contador));
             contador++;
@@ -89,18 +102,19 @@ public class MilitarAdapter {
         return listaReturn;
     }
 
-    public List<MilitarAdapter> getMilitarAdapterbyidPostoGraduacao() {
-        int contador = 1;
-        List<MilitarAdapter> listaReturn = new ArrayList<>();
-        while (getMilitarById(contador) != null) {
-            System.out.println(contador);
-            listaReturn.add(getMilitarById(contador));
-            contador++;
-        }
-        System.out.println("\n");
-        return listaReturn;
-    }
-
+    /*
+     public List<MilitarAdapter> getMilitarAdapterbyPostoGraduacao() {
+     int contador = 1;
+     List<MilitarAdapter> listaReturn = new ArrayList<>();
+     while (getMilitarById(contador) != null) {
+     System.out.println(contador);
+     listaReturn.add(getMilitarById(contador));
+     contador++;
+     }
+     System.out.println("\n");
+     return listaReturn;
+     }
+     */
     @Override
     public String toString() {
         return "MilitarAdapter{" + "idmilitar=" + idmilitar + ", isalocado=" + isalocado + ", idequipe=" + idequipe + ", idUnidade=" + idUnidade + ", celular=" + celular + ", categoriacnh=" + categoriacnh + ", nome=" + nome + ", nome_guerra=" + nome_guerra + ", numero_funcional=" + numero_funcional + ", posto_graduacao=" + posto_graduacao + '}';
