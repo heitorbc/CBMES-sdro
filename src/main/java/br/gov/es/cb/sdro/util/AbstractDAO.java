@@ -45,6 +45,13 @@ public class AbstractDAO<T> implements DAO<T>{
         return obj;
     }
     
+    public T buscaPorInteger(Integer integer){
+        query = em.createNamedQuery(busca);
+        query.setParameter(parametro, integer);
+        T obj = (T) query.getSingleResult();
+        return obj;
+    }
+    
     @Override
     public List buscaListaSemParametro(){
         query = em.createNamedQuery(busca);

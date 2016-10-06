@@ -29,7 +29,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Militar.findAll", query = "SELECT m FROM Militar m"),
     @NamedQuery(name = "Militar.findByIdmilitar", query = "SELECT m FROM Militar m WHERE m.idmilitar = :idmilitar"),
-    @NamedQuery(name = "Militar.findByPostoGraducao", query = "SELECT m FROM Militar m INNER JOIN SafoFuncionario s on (m.safo_idfuncionario = s.idfuncionario) WHERE s.idpostograducao = :idgraducao"),
     @NamedQuery(name = "Militar.findByIsalocado", query = "SELECT m FROM Militar m WHERE m.isalocado = :isalocado")})
 public class Militar implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -5,6 +5,9 @@
  */
 package br.gov.es.cb.sdro.view;
 
+import br.gov.es.cb.sdro.model.MilitarAdapter;
+import java.util.List;
+
 /**
  *
  * @author Heitor
@@ -16,6 +19,29 @@ public class Inicial extends javax.swing.JFrame {
      */
     public Inicial() {
         initComponents();
+        
+        
+        
+        //TEstes carregamento militarAdapter
+        /*
+        //Busca Militar Adaptado por ID
+        MilitarAdapter mil = new MilitarAdapter().getMilitarById(1);
+        System.out.println(mil.toString());
+        */
+        /*
+        //Busca Todos os Militares
+        List<MilitarAdapter> l = new MilitarAdapter().getAllMilitarAdapter();
+        for (int i = 0; i < 10; i++) {
+            System.out.println(l.get(i).toString());
+        }
+        */
+        /*
+        //Busca Militares Por Posto Graduacao
+        List<MilitarAdapter> l = new MilitarAdapter().getListMilitarByIdPostoGraduacao(1);
+        for (int i = 0; i < 10; i++) {
+            System.out.println(l.get(i).toString());
+        }
+        */
     }
 
     /**
