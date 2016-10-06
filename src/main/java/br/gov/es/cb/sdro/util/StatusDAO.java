@@ -28,4 +28,12 @@ public class StatusDAO extends AbstractDAO<Status>{
         listaStatuss = (List<Status>) buscaListaSemParametro();
         return listaStatuss;
     }
+    
+    public Status buscaStatusPorID(int id){
+        busca =  "Status.findByIdstatus";
+        query = em.createNamedQuery(busca);
+        query.setParameter("idstatus", id);
+        Status obj = (Status) query.getSingleResult();
+        return obj;
+    }
 }

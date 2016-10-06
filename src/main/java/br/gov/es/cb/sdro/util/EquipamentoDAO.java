@@ -5,26 +5,54 @@
  */
 package br.gov.es.cb.sdro.util;
 
+import br.gov.es.cb.sdro.model.Equipamento;
 import java.util.List;
-
 /**
  *
  * @author Heitor
  */
-public class EquipamentoDAO  extends AbstractDAO<EquipamentoDAO>{
-    EquipamentoDAO equipamento;
-    List<EquipamentoDAO> listaEquipamentos;
+public class EquipamentoDAO  extends AbstractDAO<Equipamento>{
+    Equipamento equipamento;
+    List<Equipamento> listaEquipamentos;
+  
     
-    public EquipamentoDAO buscaEquipamentoPorNome(String nome) {
+    public Equipamento buscaEquipamentoPorNome(String nome) {
         busca = "Equipamento.findByNome";
         parametro = "nome";
         equipamento = buscaPorString(nome);
         return equipamento;
     }
     
-    public List<EquipamentoDAO> buscaEquipamentos(){
+    public List<Equipamento> buscaEquipamentos(){
         busca = "Equipamento.findAll";
-        listaEquipamentos = (List<EquipamentoDAO>) buscaListaSemParametro();
+        listaEquipamentos = (List<Equipamento>) buscaListaSemParametro();
         return listaEquipamentos;
     }
+    
+    public void update(Equipamento obj) {
+                     try {
+                              em.getTransaction().begin();
+                              em.merge(obj);
+                              em.getTransaction().commit();
+                              
+                     } catch (Exception ex) {
+                              ex.printStackTrace();
+                              em.getTransaction().rollback();
+                     }
+           }
+   
+    @Override
+    public void remove(Equipamento obj) {
+              try {
+                       em.getTransaction().begin();
+                       obj = em.find(obj.getClass(), obj.getIdequipamento());
+                       em.remove(obj);
+                       em.getTransaction().commit();
+              } catch (Exception ex) {
+                       ex.printStackTrace();
+                       em.getTransaction().rollback();
+              }
+    }
+
+   
 }

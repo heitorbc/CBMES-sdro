@@ -6,6 +6,8 @@
 package br.gov.es.cb.sdro.view;
 
 import br.gov.es.cb.sdro.control.ControlMilitarAdapter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -77,6 +79,11 @@ public class Principal extends javax.swing.JFrame {
         jMenu1.add(jMenuItem5);
 
         jMenuItem6.setText("Equipamento");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem6);
 
         jMenuItem7.setText("SCO");
@@ -119,6 +126,15 @@ public class Principal extends javax.swing.JFrame {
         jDesktopPane1.add(telaUnidades);
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        try {
+            // TODO add your handling code here:
+            jDesktopPane1.add(new TelaEquipamento());
+        } catch (Exception ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
