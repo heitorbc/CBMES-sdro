@@ -7,6 +7,7 @@ package br.gov.es.cb.sdro.util;
 
 import br.gov.es.cb.sdro.model.Unidade;
 import java.util.List;
+import javax.persistence.NoResultException;
 
 
 
@@ -30,4 +31,16 @@ public class UnidadesDAO extends AbstractDAO<Unidade>{
         listaUnidades = (List<Unidade>) buscaListaSemParametro();
         return listaUnidades;
     }
+    
+    public Unidade buscaUnidadePorId(Integer id) {
+        try {
+            busca = "Unidade.findByIdunidade";
+            parametro = "idunidade";
+            unidade = buscaPorInteger(id);
+            return unidade;
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
 }

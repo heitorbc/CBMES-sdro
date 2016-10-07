@@ -66,6 +66,14 @@ public class Unidade implements Serializable {
         this.idunidade = idunidade;
     }
 
+    public Unidade(String nome, int idcomandante, int idsubcomandante) {
+        this.nome = nome;
+        this.idcomandante = idcomandante;
+        this.idsubcomandante = idsubcomandante;
+    }
+
+    
+    
     public Unidade(Integer idunidade, int idcomandante, int idsubcomandante) {
         this.idunidade = idunidade;
         this.idcomandante = idcomandante;

@@ -80,7 +80,7 @@ public class MilitarAdapter {
     public List<MilitarAdapter> getAllMilitarAdapter() {
         int contador = 1;
         List<MilitarAdapter> listaReturn = new ArrayList<>();
-        //while (getMilitarById(contador) != null) {
+        while (getMilitarById(contador) != null) {
         
         /*
         ########################################
@@ -93,7 +93,7 @@ public class MilitarAdapter {
         */
         
         //reduz consulta militar pra 100 pela demora de consulta
-        while (contador < 100) {
+        //while (contador < 300) {
             //System.out.println(contador);
             listaReturn.add(getMilitarById(contador));
             contador++;
