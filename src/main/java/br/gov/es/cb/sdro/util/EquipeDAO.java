@@ -28,4 +28,6 @@ public class EquipeDAO extends AbstractDAO<Equipe>{
         listaEquipes = (List<Equipe>) buscaListaSemParametro();
         return listaEquipes;
     }
+    
+    
 }

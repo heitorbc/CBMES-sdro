@@ -13,6 +13,7 @@ import br.gov.es.cb.sdro.util.ChecaSimilaridadeString;
 import br.gov.es.cb.sdro.util.EquipamentoDAO;
 import br.gov.es.cb.sdro.util.StatusDAO;
 import java.text.AttributedCharacterIterator;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -27,15 +29,17 @@ import javax.swing.table.DefaultTableModel;
  * @author Patrícia
  */
 public class TelaEquipamento extends javax.swing.JInternalFrame {
+
     int codigo;
     List<Status> lstStatus;
     List<Equipamento> lstEquipamentos;
     StatusDAO statusDAO;
-    HashMap<String,Integer> mapStatus;
+    HashMap<String, Integer> mapStatus;
     EquipamentoDAO equipamentoDAO;
     private DefaultTableModel tableEquipamentos;
     Status status;
     ChecaSimilaridadeString similaridadeString;
+
     /**
      * Creates new form TelaEquipamento
      */
@@ -50,51 +54,66 @@ public class TelaEquipamento extends javax.swing.JInternalFrame {
         this.mapStatus = getMapStatus(lstStatus);
         jComboStatus.removeAllItems();
         similaridadeString = new ChecaSimilaridadeString();
+
         for (Status status : lstStatus) {
             jComboStatus.addItem(status.getDescricao());
         }
         addTabela();
         this.setVisible(true);
     }
-    
-   
-    
-    public HashMap getMapStatus(List<Status> lstStatus){
-        HashMap<String,Integer> mapStatus = new HashMap<>();
+
+    public HashMap getMapStatus(List<Status> lstStatus) {
+        HashMap<String, Integer> mapStatus = new HashMap<>();
         for (Status status : lstStatus) {
             mapStatus.put(status.getDescricao(), status.getIdstatus());
         }
         return mapStatus;
     }
-    
-    public int getIdStatus(String status){
+
+    public int getIdStatus(String status) {
         for (Map.Entry<String, Integer> entry : mapStatus.entrySet()) {
             String key = entry.getKey();
             int id = entry.getValue();
-            if(key.equals(status)){
+            if (key.equals(status)) {
                 return id;
             }
         }
         return 0;
     }
-    
-     public void addTabela() throws Exception {
-        //pega o modelo da tabela
-        //chama metodo da Class Gerenciador com o nome de ListaCliente passando um nome
-       
-         
-  
-        lstEquipamentos = equipamentoDAO.buscaEquipamentos();
-        
-        for (Equipamento eq : lstEquipamentos) {//vare a lista de Cliente obtida
-            
-           Status status = eq.getIdstatus();
-           Status statusResult = statusDAO.buscaStatusPorID(status.getIdstatus());
-            tableEquipamentos.addRow(new Object[]{eq.getIdequipamento(), eq.getNome(), eq.getMarca(),statusResult.getDescricao()});
+
+    public void addTabela() throws Exception {
+        if (tableEquipamentos.getRowCount() > 0) {
+            System.out.println("qtd" + tableEquipamentos.getRowCount());
+            int qtd = tableEquipamentos.getRowCount();
+            for (int i = 0; i < qtd; i++) {
+                tableEquipamentos.removeRow(0);
+                System.out.println(i);
+            }
         }
-       
+        if (tableEquipamentos.getRowCount() > 0) {
+            System.out.println("table    " + tableEquipamentos.getDataVector());
+        }
+        lstEquipamentos = equipamentoDAO.buscaEquipamentos();
+        System.out.println(lstEquipamentos);
+        for (Equipamento eq : lstEquipamentos) {
+
+            Status status = eq.getIdstatus();
+            Status statusResult = statusDAO.buscaStatusPorID(status.getIdstatus());
+            tableEquipamentos.addRow(new Object[]{eq.getIdequipamento(), eq.getNome(), eq.getMarca(), statusResult.getDescricao()});
+        }
+
     }
-     
+
+    public void limparCamposCadastrar() {
+        txtMarca.setText("");
+        txtNome.setText("");
+    }
+
+    public void limparCamposAlterar() {
+        txtMarcaAlterar.setText("");
+        txtNomeAlterar.setText("");
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -125,6 +144,12 @@ public class TelaEquipamento extends javax.swing.JInternalFrame {
 
         setClosable(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
 
         jLabel1.setText("Status");
 
@@ -336,132 +361,184 @@ public class TelaEquipamento extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-       
-       
-       String statusdescricao = jComboStatus.getSelectedItem().toString();
-       int id = getIdStatus(statusdescricao);
-       status.setIdstatus(id);
-       Unidade unidade = new Unidade();
-       unidade.setIdunidade(1);
-       Equipamento equipamento = new Equipamento();
-       equipamento.setIdunidade(unidade);
-       Viatura viatura = new Viatura();
+
+        try {
+            if(!txtNome.getText().equals("")  && !txtMarca.getText().equals("")){
+            String statusdescricao = jComboStatus.getSelectedItem().toString();
+            int id = getIdStatus(statusdescricao);
+            status.setIdstatus(id);
+            Unidade unidade = new Unidade();
+            unidade.setIdunidade(1);
+            Equipamento equipamento = new Equipamento();
+            equipamento.setIdunidade(unidade);
+            Viatura viatura = new Viatura();
 //       viatura.setIdviatura(0);
 //       equipamento.setIdviatura(viatura);
-       equipamento.setNome(txtNome.getText());
-       equipamento.setMarca(txtMarca.getText());
-       equipamento.setIsalocado(false);
-       equipamento.setIdstatus(status);
-       
-       equipamentoDAO.save(equipamento);
-       
-       
-        
+            equipamento.setNome(txtNome.getText());
+            equipamento.setMarca(txtMarca.getText());
+            equipamento.setIsalocado(false);
+            equipamento.setIdstatus(status);
+
+            if(equipamentoDAO.save(equipamento)){
+                 JOptionPane.showMessageDialog(null,"Equipamento Cadastrado com sucesso!");
+            }else{
+                 JOptionPane.showMessageDialog(null,"Erro ao Cadastrar Equipamento");
+            }
+            //addTabela();
+            limparCamposCadastrar();
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Todos os campos devem ser preenchidos");
+            }
+            
+        } catch (Exception ex) {
+            Logger.getLogger(TelaEquipamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-       int linha  = jTableEquipamentos.getSelectedRow();
-       codigo = Integer.parseInt(jTableEquipamentos.getValueAt(linha, 0).toString());
-       String statusdescricao = jComboStatusAlterar.getSelectedItem().toString();
-       int id = getIdStatus(statusdescricao);
-       status.setIdstatus(id);
-       Unidade unidade = new Unidade();
-       unidade.setIdunidade(1);
-       Equipamento equipamento = new Equipamento();
-       equipamento.setIdunidade(unidade);
-       Viatura viatura = new Viatura();
+        try {
+            if(!txtNomeAlterar.getText().equals("")  && !txtMarcaAlterar.getText().equals("")){
+            int linha = jTableEquipamentos.getSelectedRow();
+            codigo = Integer.parseInt(tableEquipamentos.getValueAt(linha, 0).toString());
+            String statusdescricao = jComboStatusAlterar.getSelectedItem().toString();
+            int id = getIdStatus(statusdescricao);
+            status.setIdstatus(id);
+            Unidade unidade = new Unidade();
+            unidade.setIdunidade(1);
+            Equipamento equipamento = new Equipamento();
+            equipamento.setIdunidade(unidade);
+            Viatura viatura = new Viatura();
 //       viatura.setIdviatura(0);
 //       equipamento.setIdviatura(viatura);
-       equipamento.setIdequipamento(codigo);
-       equipamento.setNome(txtNomeAlterar.getText());
-       equipamento.setMarca(txtMarcaAlterar.getText());
-       equipamento.setIsalocado(false);
-       equipamento.setIdstatus(status);
-       
-       equipamentoDAO.update(equipamento);
+            equipamento.setIdequipamento(codigo);
+            equipamento.setNome(txtNomeAlterar.getText());
+            equipamento.setMarca(txtMarcaAlterar.getText());
+            equipamento.setIsalocado(false);
+            equipamento.setIdstatus(status);
+
+            
+            if(equipamentoDAO.update(equipamento)){
+                 JOptionPane.showMessageDialog(null,"Equipamento Atualizado com sucesso");
+            }
+            else{
+                 JOptionPane.showMessageDialog(null,"Erro ao Atualizar Equipamento");
+            }
+            addTabela();
+            limparCamposAlterar();
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Todos os campos devem ser preenchidos");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(TelaEquipamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void txtPesquisarInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtPesquisarInputMethodTextChanged
 
-       
-        
+
     }//GEN-LAST:event_txtPesquisarInputMethodTextChanged
 
     private void jTableEquipamentosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableEquipamentosMouseClicked
-       int linha  = jTableEquipamentos.getSelectedRow();
-        codigo = Integer.parseInt(jTableEquipamentos.getValueAt(linha, 0).toString());
-           for (Equipamento eq : lstEquipamentos) {
+        int linha = jTableEquipamentos.getSelectedRow();
+        codigo = Integer.parseInt(tableEquipamentos.getValueAt(linha, 0).toString());
+        for (Equipamento eq : lstEquipamentos) {
             System.out.println(eq.getIdstatus());
-            if(eq.getIdequipamento().equals(codigo)){
+            if (eq.getIdequipamento().equals(codigo)) {
                 txtMarcaAlterar.setText(eq.getMarca());
                 txtNomeAlterar.setText(eq.getNome());
                 jComboStatusAlterar.removeAllItems();
+
+                if(eq.getIdstatus().getDescricao() != null)jComboStatusAlterar.addItem(eq.getIdstatus().getDescricao());
                 System.out.println(eq.getIdstatus().getDescricao());
-                System.out.println(eq.getIdstatus().getIdstatus());
-                jComboStatusAlterar.addItem(eq.getIdstatus().getDescricao());
                 
-                 for (Status status : lstStatus) {
-                    if(!status.getDescricao().equals(eq.getIdstatus().getDescricao())){
-                         jComboStatusAlterar.addItem(status.getDescricao());
-                     }
+                for (Status status : lstStatus) {
+                    if (!status.getDescricao().equals(eq.getIdstatus().getDescricao())) {
+                        jComboStatusAlterar.addItem(status.getDescricao());
+                    }
                 }
             }
         }
     }//GEN-LAST:event_jTableEquipamentosMouseClicked
 
     private void jTableEquipamentosKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableEquipamentosKeyPressed
-        int linha  = jTableEquipamentos.getSelectedRow();
-        codigo = Integer.parseInt(jTableEquipamentos.getValueAt(linha, 0).toString());
+        int linha = jTableEquipamentos.getSelectedRow();
+        codigo = Integer.parseInt(tableEquipamentos.getValueAt(linha, 0).toString());
     }//GEN-LAST:event_jTableEquipamentosKeyPressed
 
     private void txtPesquisarCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtPesquisarCaretPositionChanged
-    
+
     }//GEN-LAST:event_txtPesquisarCaretPositionChanged
 
     private void txtPesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarKeyPressed
         String input = txtPesquisar.getText();
-        System.out.println(input);
-        
-        if (jTableEquipamentos.getRowCount() > 0){
-            for (int i=0;i<=jTableEquipamentos.getRowCount();i++){
+        limparCamposAlterar();
+        if (tableEquipamentos.getRowCount() > 0) {
+            int qtd = tableEquipamentos.getRowCount();
+            for (int i = 0; i < qtd; i++) {
                 tableEquipamentos.removeRow(0);
-                }
-               
-            }      
-        for (Equipamento eq : lstEquipamentos) {
-            float result = 0;
+            }
+
+        }
+        if (input.equals("")) {
             try {
-                result = similaridadeString.checkSimilarity(eq.getNome(),input);
+                addTabela();
             } catch (Exception ex) {
                 Logger.getLogger(TelaEquipamento.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("result"+result);
-            if(result > 0.50){
-                Status status = eq.getIdstatus();
-                Status statusResult = statusDAO.buscaStatusPorID(status.getIdstatus());
-               tableEquipamentos.addRow(new Object[]{eq.getIdequipamento(), eq.getNome(), eq.getMarca(),statusResult.getDescricao()});
-            }
-            
-            
-        }
-        if(input.equals("")){
+
+        } else {
             for (Equipamento eq : lstEquipamentos) {
-                 Status status = eq.getIdstatus();
-                Status statusResult = statusDAO.buscaStatusPorID(status.getIdstatus());
-                tableEquipamentos.addRow(new Object[]{eq.getIdequipamento(), eq.getNome(), eq.getMarca(),statusResult.getDescricao()});
+                float result = 0;
+                try {
+                    result = similaridadeString.checkSimilarity(eq.getNome(), input);
+                } catch (Exception ex) {
+                    Logger.getLogger(TelaEquipamento.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                if (result > 0.50) {
+                    Status status = eq.getIdstatus();
+                    Status statusResult = statusDAO.buscaStatusPorID(status.getIdstatus());
+                    tableEquipamentos.addRow(new Object[]{eq.getIdequipamento(), eq.getNome(), eq.getMarca(), statusResult.getDescricao()});
+                }
+
             }
-        
-    }
+        }
+
     }//GEN-LAST:event_txtPesquisarKeyPressed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-          int linha  = jTableEquipamentos.getSelectedRow();
-          codigo = Integer.parseInt(jTableEquipamentos.getValueAt(linha, 0).toString());
-          Equipamento eq = new Equipamento();
-          
-          eq.setIdequipamento(codigo);
-          equipamentoDAO.remove(eq);
+        try {
+            int linha = jTableEquipamentos.getSelectedRow();
+            codigo = Integer.parseInt(tableEquipamentos.getValueAt(linha, 0).toString());
+            Equipamento eq = new Equipamento();
+
+            eq.setIdequipamento(codigo);
+            if(equipamentoDAO.remove(eq)){
+                JOptionPane.showMessageDialog(null,"Equipamento Excluido com sucesso!");
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Erro ao Excluir Equipamento");
+            }
+            addTabela();
+            limparCamposAlterar();
+        } catch (Exception ex) {
+            Logger.getLogger(TelaEquipamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+       limparCamposAlterar();
+        try {
+            jComboStatusAlterar.removeAllItems();
+            addTabela();
+        } catch (Exception ex) {
+            Logger.getLogger(TelaEquipamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

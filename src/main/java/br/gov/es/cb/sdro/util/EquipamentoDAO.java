@@ -28,31 +28,34 @@ public class EquipamentoDAO  extends AbstractDAO<Equipamento>{
         listaEquipamentos = (List<Equipamento>) buscaListaSemParametro();
         return listaEquipamentos;
     }
-    
-    public void update(Equipamento obj) {
-                     try {
-                              em.getTransaction().begin();
-                              em.merge(obj);
-                              em.getTransaction().commit();
-                              
-                     } catch (Exception ex) {
-                              ex.printStackTrace();
-                              em.getTransaction().rollback();
-                     }
-           }
-   
-    @Override
-    public void remove(Equipamento obj) {
+     @Override
+    public boolean remove(Equipamento obj) {
               try {
                        em.getTransaction().begin();
-                       obj = em.find(obj.getClass(), obj.getIdequipamento());
+                       obj = em.find(obj.getClass(),obj.getIdequipamento());
                        em.remove(obj);
+                       
                        em.getTransaction().commit();
+                       return true;
               } catch (Exception ex) {
                        ex.printStackTrace();
                        em.getTransaction().rollback();
               }
+              return false;
     }
+  
+     public boolean update(Equipamento obj) {
+                     try {
+                              em.getTransaction().begin();
+                              em.merge(obj);
+                              em.getTransaction().commit();
+                              return true;
+                     } catch (Exception ex) {
+                              ex.printStackTrace();
+                              em.getTransaction().rollback();
+                     }
+                     return false;
+           }
 
    
 }

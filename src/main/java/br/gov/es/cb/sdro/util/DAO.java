@@ -14,8 +14,10 @@ import java.util.List;
  */
 
 public interface DAO<T> {
-    public void save(T objeto);
-    public void remove(T objeto);
+    public boolean save(T objeto);
+
+   
+    public boolean remove(T objeto);
     public T buscaPorString(String palavraChave);
     public List buscaListaSemParametro();
     public List buscaListaComParametro(Object objeto);
