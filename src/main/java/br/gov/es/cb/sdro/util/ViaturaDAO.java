@@ -34,23 +34,36 @@ public class ViaturaDAO extends AbstractDAO<Viatura>{
         listaViaturas = (List<Viatura>) buscaListaSemParametro();
         return listaViaturas;
     }
-      public Viatura buscaViaturaPorID(int id){
-        busca =  "Viatura.findByIdviatura";
-        parametro = "idviatura";
-        return buscaPorInteger(id);
-      }
+    public Viatura buscaViaturaPorID(int id){
+      busca =  "Viatura.findByIdviatura";
+      parametro = "idviatura";
+      return buscaPorInteger(id);
+    }
       
-      public boolean update(Viatura obj) {
-                     try {
-                              em.getTransaction().begin();
-                              em.merge(obj);
-                              em.getTransaction().commit();
-                              return true;
-                     } catch (Exception ex) {
-                              ex.printStackTrace();
-                              em.getTransaction().rollback();
-                     }
-                     return false;
-           }
-     
+    public boolean update(Viatura obj) {
+                   try {
+                            em.getTransaction().begin();
+                            em.merge(obj);
+                            em.getTransaction().commit();
+                            return true;
+                   } catch (Exception ex) {
+                            ex.printStackTrace();
+                            em.getTransaction().rollback();
+                   }
+                   return false;
+         }
+    @Override
+    public boolean remove(Viatura obj) {
+              try {
+                       em.getTransaction().begin();
+                       obj = em.find(obj.getClass(), obj.getIdviatura());
+                       em.remove(obj);
+                       em.getTransaction().commit();
+                       return true;
+              } catch (Exception ex) {
+                       ex.printStackTrace();
+                       em.getTransaction().rollback();
+              }
+              return false;
+    }
 }

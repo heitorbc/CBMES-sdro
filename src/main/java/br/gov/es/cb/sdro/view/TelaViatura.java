@@ -77,7 +77,6 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         for (Tipoviatura tipoViatura : lstTipoViatura) {
             comboTipoViatura.addItem(tipoViatura.getDescricao());
         }    
-        
         status = new Status();
         lstStatus = new ArrayList<>();
         statusDAO = new StatusDAO();
@@ -87,7 +86,6 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         for (Status status : lstStatus) {
             comboStatus.addItem(status.getDescricao());
         }
-        
         categoria = new Categoria();
         lstCategoria = new ArrayList<>();
         categoriaDAO = new CategoriaDAO();
@@ -97,7 +95,6 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         for (Categoria categoria : lstCategoria) {
             comboCategoria.addItem(categoria.getDescricao());
         }
-        
         tipoCombustivel = new Tipocombustivel();
         lstTipoCombustivel = new ArrayList<>();
         tipoCombustivelDAO = new TipocombustivelDAO();
@@ -183,8 +180,6 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         return 0;
     }
     
-    
-    
    
     public void addTabela() throws Exception {
         //pega o modelo da tabela
@@ -193,24 +188,14 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         lstViatura = viaturaDAO.buscaViaturas();
         
         for (Viatura eq : lstViatura) {//vare a lista de Cliente obtida
-            /*
-            Tipoviatura viatura = eq.getIdviatura();
-            Tipoviatura = ViaturaDAO.buscaStatusPorID(status.getIdstatus());
-            */
+            
             Status status = eq.getIdstatus();
             Status statusResult = statusDAO.buscaStatusPorID(status.getIdstatus());
            
-           
-            tableViatura.addRow(new Object[]{eq.getIdviatura(), 
-                                             eq.getPrefixo(), 
-                                             eq.getPlaca(), 
-                                             eq.getMarca(), 
-                                             eq.getModelo(), 
-                                             eq.getAno(), 
-                                             eq.getCapagua(), 
-                                             eq.getCappessoas(), 
-                                             
-                                             statusResult.getDescricao()});
+            tableViatura.addRow(new Object[]{eq.getIdviatura(),
+                                                 eq.getPlaca(),
+                                                 eq.getModelo(), 
+                                                 statusResult.getDescricao()});
             
         }
        
@@ -228,6 +213,18 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         jLayeredPane2 = new javax.swing.JLayeredPane();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
+        jLabel27 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuBar2 = new javax.swing.JMenuBar();
+        jMenu6 = new javax.swing.JMenu();
+        jMenu7 = new javax.swing.JMenu();
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jPopupMenu2 = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jTabbedPane3 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -315,6 +312,24 @@ public class TelaViatura extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 100, Short.MAX_VALUE)
         );
+
+        jLabel27.setText("jLabel27");
+
+        jScrollPane2.setViewportView(jEditorPane1);
+
+        jMenu4.setText("File");
+        jMenuBar1.add(jMenu4);
+
+        jMenu5.setText("Edit");
+        jMenuBar1.add(jMenu5);
+
+        jMenu6.setText("File");
+        jMenuBar2.add(jMenu6);
+
+        jMenu7.setText("Edit");
+        jMenuBar2.add(jMenu7);
+
+        jMenuItem1.setText("jMenuItem1");
 
         jLabel7.setText("Modelo");
 
@@ -457,7 +472,7 @@ public class TelaViatura extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboTipoCombustivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
                 .addComponent(btnSalvar)
                 .addContainerGap())
         );
@@ -514,9 +529,8 @@ public class TelaViatura extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel25.setText("Pesquisar");
+        jLabel25.setText("Pesquisar:");
 
-        txtPesquisar.setText("???");
         txtPesquisar.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 txtPesquisarCaretPositionChanged(evt);
@@ -541,11 +555,11 @@ public class TelaViatura extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Id", "Nome", "Marca", "Status"
+                "Id", "Placa", "Modelo", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -563,6 +577,17 @@ public class TelaViatura extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(jTableViatura);
+        if (jTableViatura.getColumnModel().getColumnCount() > 0) {
+            jTableViatura.getColumnModel().getColumn(0).setMinWidth(30);
+            jTableViatura.getColumnModel().getColumn(0).setPreferredWidth(30);
+            jTableViatura.getColumnModel().getColumn(0).setMaxWidth(30);
+            jTableViatura.getColumnModel().getColumn(1).setMinWidth(70);
+            jTableViatura.getColumnModel().getColumn(1).setPreferredWidth(70);
+            jTableViatura.getColumnModel().getColumn(1).setMaxWidth(70);
+            jTableViatura.getColumnModel().getColumn(3).setMinWidth(110);
+            jTableViatura.getColumnModel().getColumn(3).setPreferredWidth(110);
+            jTableViatura.getColumnModel().getColumn(3).setMaxWidth(110);
+        }
 
         jLabel26.setText("Placa");
 
@@ -574,22 +599,8 @@ public class TelaViatura extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jLabel19)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCapPessoasAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(52, 52, 52)
-                        .addComponent(jLabel20)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCapAguaAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(16, Short.MAX_VALUE))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel26)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel25)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
@@ -640,18 +651,33 @@ public class TelaViatura extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(btnAlterar)))
                         .addGap(16, 16, 16))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCapPessoasAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel20)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCapAguaAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(16, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel25)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel26, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel25)
+                    .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel26))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
@@ -718,6 +744,7 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         String tipoviaturadescricao = comboTipoViatura.getSelectedItem().toString();
         int idTipoViatura = getIdTipoViatura(tipoviaturadescricao);
@@ -756,23 +783,24 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         viaturaDAO.save(viatura);
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
         int linha  = jTableViatura.getSelectedRow();
         codigo = Integer.parseInt(jTableViatura.getValueAt(linha, 0).toString());
        
-        String tipoviaturadescricao = comboTipoViatura.getSelectedItem().toString();
+        String tipoviaturadescricao = comboTipoViaturaAlterar.getSelectedItem().toString();
         int idTipoViatura = getIdTipoViatura(tipoviaturadescricao);
         tipoViatura.setIdtipoviatura(idTipoViatura);
 
-        String statusdescricao = comboStatus.getSelectedItem().toString();
+        String statusdescricao = comboStatusAlterar.getSelectedItem().toString();
         int idStatus = getIdStatus(statusdescricao);
         status.setIdstatus(idStatus);
 
-        String categoriadescricao = comboCategoria.getSelectedItem().toString();
+        String categoriadescricao = comboCategoriaAlterar.getSelectedItem().toString();
         int idCategoria = getIdCategoria(categoriadescricao);
         categoria.setIdcategoria(idCategoria);
 
-        String tipocombustiveldescricao = comboTipoCombustivel.getSelectedItem().toString();
+        String tipocombustiveldescricao = comboTipoCombustivelAlterar.getSelectedItem().toString();
         int idTipoCombustivel = getIdTipoCombustivel(tipocombustiveldescricao);
         tipoCombustivel.setIdtipocombustivel(idTipoCombustivel);
 
@@ -783,18 +811,17 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         viatura.setIdunidade(unidade);
         viatura.setIsalocado(false);
         viatura.setIscbmes(false);
-        viatura.setPrefixo(txtPrefixo.getText());
-        viatura.setPlaca(txtPlaca.getText());
-        viatura.setMarca(txtMarca.getText());
-        viatura.setAno(Integer.parseInt(txtAno.getText()));
-        viatura.setModelo(txtModelo.getText());
-        viatura.setCappessoas(Integer.parseInt(txtCapPessoas.getText()));
-        viatura.setCapagua(Integer.parseInt(txtCapAgua.getText()));
+        viatura.setPrefixo(txtPrefixoAlterar.getText());
+        viatura.setPlaca(txtPlacaAlterar.getText());
+        viatura.setMarca(txtMarcaAlterar.getText());
+        viatura.setAno(Integer.parseInt(txtAnoAlterar.getText()));
+        viatura.setModelo(txtModeloAlterar.getText());
+        viatura.setCappessoas(Integer.parseInt(txtCapPessoasAlterar.getText()));
+        viatura.setCapagua(Integer.parseInt(txtCapAguaAlterar.getText()));
         viatura.setIdtipoviatura(tipoViatura);
         viatura.setIdstatus(status);
         viatura.setIdcategoria(categoria);
         viatura.setIdtipocombustivel(tipoCombustivel);
-        
         
         viaturaDAO.update(viatura);
     }//GEN-LAST:event_btnAlterarActionPerformed
@@ -833,17 +860,17 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         for (Viatura eq : lstViatura) {
             float result = 0;
             try {
-                result = similaridadeString.checkSimilarity(eq.getMarca().toString(),input);                //getNome ???
+                result = similaridadeString.checkSimilarity(eq.getPlaca(),input);     //getPLACA()
             } catch (Exception ex) {
-                Logger.getLogger(TelaEquipamento.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TelaViatura.class.getName()).log(Level.SEVERE, null, ex);
             }
             System.out.println("result"+result);
             if(result > 0.50){
                 Status status = eq.getIdstatus();
                 Status statusResult = statusDAO.buscaStatusPorID(status.getIdstatus());
-                tableViatura.addRow(new Object[]{eq.getIdviatura(), 
-                                                 eq.getAno().toString(), 
-                                                 eq.getMarca(),
+                tableViatura.addRow(new Object[]{eq.getIdviatura(),
+                                                 eq.getPlaca(),
+                                                 eq.getModelo(), 
                                                  statusResult.getDescricao()});
             }
 
@@ -852,9 +879,9 @@ public class TelaViatura extends javax.swing.JInternalFrame {
             for (Viatura eq : lstViatura) {
                 Status status = eq.getIdstatus();
                 Status statusResult = statusDAO.buscaStatusPorID(status.getIdstatus());
-                tableViatura.addRow(new Object[]{eq.getIdviatura(), 
-                                                 eq.getCappessoas().toString(), 
-                                                 eq.getMarca(),
+                tableViatura.addRow(new Object[]{eq.getIdviatura(),
+                                                 eq.getPlaca(),
+                                                 eq.getModelo(), 
                                                  statusResult.getDescricao()});
             }
 
@@ -873,7 +900,7 @@ public class TelaViatura extends javax.swing.JInternalFrame {
                 txtPlacaAlterar.setText(eq.getPlaca());
                 txtMarcaAlterar.setText(eq.getMarca());
                 txtModeloAlterar.setText(eq.getModelo());
-                txtAnoAlterar.setText(eq.getAno().toString());             //parseString ???
+                txtAnoAlterar.setText(eq.getAno().toString());
                 txtCapAguaAlterar.setText(eq.getCapagua().toString());    
                 txtCapPessoasAlterar.setText(eq.getCappessoas().toString());
                 
@@ -887,6 +914,7 @@ public class TelaViatura extends javax.swing.JInternalFrame {
                         comboTipoViaturaAlterar.addItem(status.getDescricao());
                     }
                 }
+                
                 //Status    
                 comboStatusAlterar.removeAllItems();
                 System.out.println(eq.getIdstatus().getDescricao());
@@ -924,15 +952,18 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jTableViaturaMouseClicked
 
+    
     private void jTableViaturaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableViaturaKeyPressed
         int linha  = jTableViatura.getSelectedRow();
         codigo = Integer.parseInt(jTableViatura.getValueAt(linha, 0).toString());
     }//GEN-LAST:event_jTableViaturaKeyPressed
 
+    
     private void txtPlacaAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPlacaAlterarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPlacaAlterarActionPerformed
 
+    
     private void txtPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPesquisarActionPerformed
@@ -951,6 +982,7 @@ public class TelaViatura extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> comboTipoCombustivelAlterar;
     private javax.swing.JComboBox<String> comboTipoViatura;
     private javax.swing.JComboBox<String> comboTipoViaturaAlterar;
+    private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -970,6 +1002,7 @@ public class TelaViatura extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -981,10 +1014,20 @@ public class TelaViatura extends javax.swing.JInternalFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenu2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTabbedPane jTabbedPane3;
     private javax.swing.JTable jTableViatura;
