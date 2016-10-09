@@ -28,4 +28,10 @@ public class CategoriaDAO extends AbstractDAO<Categoria>{
         listaCategorias = (List<Categoria>) buscaListaSemParametro();
         return listaCategorias;
     }
+    
+     public Categoria buscaCategoriaPorID(int id){
+        busca =  "Categoria.findByIdcategoria";
+        parametro = "idcategoria";
+        return buscaPorInteger(id);
+    }
 }

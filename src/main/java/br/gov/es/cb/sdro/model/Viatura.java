@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "viatura")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "Viatura.findAllDisponiveis", query = "SELECT v FROM Viatura v where v.isalocado = false"),
     @NamedQuery(name = "Viatura.findAll", query = "SELECT v FROM Viatura v"),
     @NamedQuery(name = "Viatura.findByIdviatura", query = "SELECT v FROM Viatura v WHERE v.idviatura = :idviatura"),
     @NamedQuery(name = "Viatura.findByIsalocado", query = "SELECT v FROM Viatura v WHERE v.isalocado = :isalocado"),

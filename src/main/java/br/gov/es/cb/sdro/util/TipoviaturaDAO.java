@@ -28,4 +28,10 @@ public class TipoviaturaDAO extends AbstractDAO<Tipoviatura>{
         listaTipoviaturas = (List<Tipoviatura>) buscaListaSemParametro();
         return listaTipoviaturas;
     }
+      public Tipoviatura buscaTipoViaturaPorID(int id){
+        busca =  "Tipoviatura.findByIdtipoviatura";
+        parametro = "idtipoviatura";
+        return buscaPorInteger(id);
+    }
+    
 }
