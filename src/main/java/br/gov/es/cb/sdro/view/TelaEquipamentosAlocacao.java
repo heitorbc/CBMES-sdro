@@ -10,6 +10,7 @@ import br.gov.es.cb.sdro.model.Status;
 import br.gov.es.cb.sdro.util.EquipamentoDAO;
 import br.gov.es.cb.sdro.util.StatusDAO;
 import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,44 +21,47 @@ import javax.swing.table.DefaultTableModel;
  * @author Patrícia
  */
 public class TelaEquipamentosAlocacao extends javax.swing.JFrame {
-   private DefaultTableModel tableEquipamentos;
-   List<Equipamento> lstEquipamentos;
-   List<Status> lstStatus;
-   StatusDAO statusDAO;
-   EquipamentoDAO equipamentoDAO;
-   
-   int idEquipamentoSelecionado;
-   
-   public TelaEquipamentosAlocacao() throws Exception {
+
+    private DefaultTableModel tableEquipamentos;
+    List<Equipamento> lstEquipamentos;
+    List<Status> lstStatus;
+    StatusDAO statusDAO;
+    EquipamentoDAO equipamentoDAO;
+    ArrayList<Integer> lstEquipamentosSelecionados;
+    int idEquipamentoSelecionado;
+
+    public TelaEquipamentosAlocacao(ArrayList<Integer> lstIdEquipamentos) throws Exception {
         initComponents();
-       
+        lstEquipamentosSelecionados = new ArrayList<Integer>();
+        lstEquipamentosSelecionados = lstIdEquipamentos;
         statusDAO = new StatusDAO();
         tableEquipamentos = (DefaultTableModel) jTableEquipamentos.getModel();
         equipamentoDAO = new EquipamentoDAO();
-       // lstEquipamentos = new List<Equipamento>();
-       addTabela();
-       this.setVisible(true);
+        // lstEquipamentos = new List<Equipamento>();
+        addTabela();
+        this.setVisible(true);
     }
 
     public void addTabela() throws Exception {
-        
+
         if (tableEquipamentos.getRowCount() > 0) {
-            
+
             int qtd = tableEquipamentos.getRowCount();
             for (int i = 0; i < qtd; i++) {
                 tableEquipamentos.removeRow(0);
                 System.out.println(i);
             }
         }
-      
-        
-        lstEquipamentos = equipamentoDAO.buscaEquipamentos();
-    
+
+        lstEquipamentos = equipamentoDAO.buscaEquipamentosDisponiveis();
+
         for (Equipamento eq : lstEquipamentos) {
-          
-            Status status = eq.getIdstatus();
-            Status statusResult = statusDAO.buscaStatusPorID(status.getIdstatus());
-            tableEquipamentos.addRow(new Object[]{eq.getIdequipamento(), eq.getNome(), eq.getMarca()});
+            if (!lstEquipamentosSelecionados.contains(eq.getIdequipamento())) {
+                Status status = eq.getIdstatus();
+                Status statusResult = statusDAO.buscaStatusPorID(status.getIdstatus());
+
+                tableEquipamentos.addRow(new Object[]{eq.getIdequipamento(), eq.getNome(), eq.getMarca()});
+            }
         }
 
     }
@@ -142,16 +146,17 @@ public class TelaEquipamentosAlocacao extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-       int linha = jTableEquipamentos.getSelectedRow();
-       idEquipamentoSelecionado = Integer.parseInt(tableEquipamentos.getValueAt(linha, 0).toString());
-       TelaAlocacao tela = TelaAlocacao.getInstancia();
-       tela.setIdEquipamento(idEquipamentoSelecionado);
-       
-       
+        int linha = jTableEquipamentos.getSelectedRow();
+        idEquipamentoSelecionado = Integer.parseInt(tableEquipamentos.getValueAt(linha, 0).toString());
+        TelaAlocacao tela = TelaAlocacao.getInstancia();
+        tela.setIdEquipamento(idEquipamentoSelecionado);
+
+
     }//GEN-LAST:event_btnSalvarActionPerformed
-    public int getIdEquipamentoSelecionado(){
+    public int getIdEquipamentoSelecionado() {
         return idEquipamentoSelecionado;
     }
+
     /**
      * @param args the command line arguments
      */

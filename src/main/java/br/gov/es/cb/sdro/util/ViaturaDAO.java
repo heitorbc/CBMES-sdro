@@ -7,6 +7,7 @@ package br.gov.es.cb.sdro.util;
 
 import br.gov.es.cb.sdro.model.Viatura;
 import java.util.List;
+import javax.persistence.EntityExistsException;
 
 /**
  *
@@ -39,7 +40,8 @@ public class ViaturaDAO extends AbstractDAO<Viatura>{
       parametro = "idviatura";
       return buscaPorInteger(id);
     }
-      
+    
+    
     public boolean update(Viatura obj) {
                    try {
                             em.getTransaction().begin();
@@ -65,5 +67,23 @@ public class ViaturaDAO extends AbstractDAO<Viatura>{
                        em.getTransaction().rollback();
               }
               return false;
+    }
+    
+    public boolean updateIsAlocado(Viatura obj){
+       try {
+                       em.getTransaction().begin();
+//                       obj = em.find(obj.getClass(), obj.getIdviatura());
+                       busca = "Viatura.UpdateIsAlocado";
+                       query = em.createNamedQuery(busca);
+                       parametro = "idviatura";
+                       query.setParameter(parametro, obj.getIdviatura());
+                       query.executeUpdate();
+                       em.getTransaction().commit();
+                       return true;
+              } catch (Exception ex) {
+                       ex.printStackTrace();
+                       em.getTransaction().rollback();
+              }
+              return false; 
     }
 }

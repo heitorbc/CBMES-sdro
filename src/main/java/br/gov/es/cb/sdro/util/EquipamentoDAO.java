@@ -28,6 +28,12 @@ public class EquipamentoDAO  extends AbstractDAO<Equipamento>{
         listaEquipamentos = (List<Equipamento>) buscaListaSemParametro();
         return listaEquipamentos;
     }
+      public List<Equipamento> buscaEquipamentosDisponiveis(){
+        busca = "Equipamento.findAllDisponiveis";
+        listaEquipamentos = (List<Equipamento>) buscaListaSemParametro();
+        return listaEquipamentos;
+    }
+    
      @Override
     public boolean remove(Equipamento obj) {
               try {
@@ -57,5 +63,29 @@ public class EquipamentoDAO  extends AbstractDAO<Equipamento>{
                      return false;
            }
 
+   public Equipamento buscaEquipamentoPorID(int id){
+        busca =  "Equipamento.findByIdequipamento";
+        parametro = "idequipamento";
+        return buscaPorInteger(id);
+      }
+    public boolean updateIsAlocado(Equipamento obj){
+       try {
+                       em.getTransaction().begin();
+//                       obj = em.find(obj.getClass(), obj.getIdviatura());
+                       busca = "Equipamento.UpdateEstadoEquipamento";
+                       query = em.createNamedQuery(busca);
+                       String parametro1 = "idviatura";
+                       String parametro2 = "idequipamento";
+                       query.setParameter(parametro1, obj.getIdviatura());
+                       query.setParameter(parametro2, obj.getIdequipamento());
+                       query.executeUpdate();
+                       em.getTransaction().commit();
+                       return true;
+              } catch (Exception ex) {
+                       ex.printStackTrace();
+                       em.getTransaction().rollback();
+              }
+              return false; 
+    }
    
 }

@@ -94,7 +94,7 @@ public class TelaEquipamento extends javax.swing.JInternalFrame {
             System.out.println("table    " + tableEquipamentos.getDataVector());
         }
         lstEquipamentos = equipamentoDAO.buscaEquipamentos();
-        System.out.println(lstEquipamentos);
+       
         for (Equipamento eq : lstEquipamentos) {
 
             Status status = eq.getIdstatus();
@@ -566,4 +566,6 @@ public class TelaEquipamento extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNomeAlterar;
     private javax.swing.JTextField txtPesquisar;
     // End of variables declaration//GEN-END:variables
+
+   
 }

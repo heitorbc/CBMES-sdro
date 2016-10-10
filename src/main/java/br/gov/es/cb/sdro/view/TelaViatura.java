@@ -331,6 +331,8 @@ public class TelaViatura extends javax.swing.JInternalFrame {
 
         jMenuItem1.setText("jMenuItem1");
 
+        setClosable(true);
+
         jLabel7.setText("Modelo");
 
         jLabel5.setText("Marca");
@@ -766,6 +768,7 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         unidade.setIdunidade(1);
         Viatura viatura = new Viatura();
         //       viatura.setIdviatura(101);
+//        viatura.setIdviatura(null);
         viatura.setIdunidade(unidade);
         viatura.setIsalocado(false);
         viatura.setIscbmes(false);
@@ -808,6 +811,7 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         unidade.setIdunidade(1);
         Viatura viatura = new Viatura();
         //       viatura.setIdviatura(101);
+        viatura.setIdviatura(codigo);
         viatura.setIdunidade(unidade);
         viatura.setIsalocado(false);
         viatura.setIscbmes(false);
