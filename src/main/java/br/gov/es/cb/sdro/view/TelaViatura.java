@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -180,6 +181,8 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         return 0;
     }
     
+    
+    
    
     public void addTabela() throws Exception {
         //pega o modelo da tabela
@@ -200,6 +203,28 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         }
        
     }
+    
+    public void limparCamposCadastrar() {
+        txtPrefixo.setText("");
+        txtPlaca.setText("");
+        txtMarca.setText("");
+        txtAno.setText("");
+        txtModelo.setText("");
+        txtCapPessoas.setText("");
+        txtCapAgua.setText("");
+    }
+
+    
+    public void limparCamposAlterar() {
+        txtPrefixoAlterar.setText("");
+        txtPlacaAlterar.setText("");
+        txtMarcaAlterar.setText("");
+        txtAnoAlterar.setText("");
+        txtModeloAlterar.setText("");
+        txtCapPessoasAlterar.setText("");
+        txtCapAguaAlterar.setText("");
+    }
+    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -748,42 +773,63 @@ public class TelaViatura extends javax.swing.JInternalFrame {
 
     
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        String tipoviaturadescricao = comboTipoViatura.getSelectedItem().toString();
-        int idTipoViatura = getIdTipoViatura(tipoviaturadescricao);
-        tipoViatura.setIdtipoviatura(idTipoViatura);
+        try {
+            if( !txtPrefixo.getText().equals("") && !txtPlaca.getText().equals("") && !txtMarca.getText().equals("")
+             && !txtAno.getText().equals("") && !txtModelo.getText().equals("") && !txtCapPessoas.getText().equals("") 
+             && !txtCapAgua.getText().equals("") ){
+                
+            
+                String tipoviaturadescricao = comboTipoViatura.getSelectedItem().toString();
+                int idTipoViatura = getIdTipoViatura(tipoviaturadescricao);
+                tipoViatura.setIdtipoviatura(idTipoViatura);
 
-        String statusdescricao = comboStatus.getSelectedItem().toString();
-        int idStatus = getIdStatus(statusdescricao);
-        status.setIdstatus(idStatus);
+                String statusdescricao = comboStatus.getSelectedItem().toString();
+                int idStatus = getIdStatus(statusdescricao);
+                status.setIdstatus(idStatus);
 
-        String categoriadescricao = comboCategoria.getSelectedItem().toString();
-        int idCategoria = getIdCategoria(categoriadescricao);
-        categoria.setIdcategoria(idCategoria);
+                String categoriadescricao = comboCategoria.getSelectedItem().toString();
+                int idCategoria = getIdCategoria(categoriadescricao);
+                categoria.setIdcategoria(idCategoria);
 
-        String tipocombustiveldescricao = comboTipoCombustivel.getSelectedItem().toString();
-        int idTipoCombustivel = getIdTipoCombustivel(tipocombustiveldescricao);
-        tipoCombustivel.setIdtipocombustivel(idTipoCombustivel);
+                String tipocombustiveldescricao = comboTipoCombustivel.getSelectedItem().toString();
+                int idTipoCombustivel = getIdTipoCombustivel(tipocombustiveldescricao);
+                tipoCombustivel.setIdtipocombustivel(idTipoCombustivel);
 
-        Unidade unidade = new Unidade();
-        unidade.setIdunidade(1);
-        Viatura viatura = new Viatura();
-        //       viatura.setIdviatura(101);
-//        viatura.setIdviatura(null);
-        viatura.setIdunidade(unidade);
-        viatura.setIsalocado(false);
-        viatura.setIscbmes(false);
-        viatura.setPrefixo(txtPrefixo.getText());
-        viatura.setPlaca(txtPlaca.getText());
-        viatura.setMarca(txtMarca.getText());
-        viatura.setAno(Integer.parseInt(txtAno.getText()));
-        viatura.setModelo(txtModelo.getText());
-        viatura.setCappessoas(Integer.parseInt(txtCapPessoas.getText()));
-        viatura.setCapagua(Integer.parseInt(txtCapAgua.getText()));
-        viatura.setIdtipoviatura(tipoViatura);
-        viatura.setIdstatus(status);
-        viatura.setIdcategoria(categoria);
-        viatura.setIdtipocombustivel(tipoCombustivel);
-        viaturaDAO.save(viatura);
+                Unidade unidade = new Unidade();
+                unidade.setIdunidade(1);
+                Viatura viatura = new Viatura();
+                //       viatura.setIdviatura(101);
+        //        viatura.setIdviatura(null);
+                viatura.setIdunidade(unidade);
+                viatura.setIsalocado(false);
+                viatura.setIscbmes(false);
+                viatura.setPrefixo(txtPrefixo.getText());
+                viatura.setPlaca(txtPlaca.getText());
+                viatura.setMarca(txtMarca.getText());
+                viatura.setAno(Integer.parseInt(txtAno.getText()));
+                viatura.setModelo(txtModelo.getText());
+                viatura.setCappessoas(Integer.parseInt(txtCapPessoas.getText()));
+                viatura.setCapagua(Integer.parseInt(txtCapAgua.getText()));
+                viatura.setIdtipoviatura(tipoViatura);
+                viatura.setIdstatus(status);
+                viatura.setIdcategoria(categoria);
+                viatura.setIdtipocombustivel(tipoCombustivel);
+                viaturaDAO.save(viatura);
+
+                if(viaturaDAO.save(viatura)){
+                     JOptionPane.showMessageDialog(null,"Viatura Cadastrada com sucesso!");
+                }else{
+                     JOptionPane.showMessageDialog(null,"Erro ao Cadastrar Viatura");
+                }
+                limparCamposCadastrar();
+            
+            }else{
+                JOptionPane.showMessageDialog(null,"Todos os campos devem ser preenchidos");
+            }
+            
+        } catch (Exception ex) {
+            Logger.getLogger(TelaViatura.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     
