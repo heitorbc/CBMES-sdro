@@ -5,6 +5,7 @@
  */
 package br.gov.es.cb.sdro.view;
 
+//import org.fluttercode.datafactory.impl.*;
 import br.gov.es.cb.sdro.model.Equipamento;
 import br.gov.es.cb.sdro.model.Status;
 import br.gov.es.cb.sdro.model.Unidade;
@@ -60,8 +61,33 @@ public class TelaEquipamento extends javax.swing.JInternalFrame {
         }
         addTabela();
         this.setVisible(true);
+        
     }
-
+    
+//    public void populaTabela(){
+//        DataFactory df = new DataFactory();
+//        
+//        for (int i = 0; i < 1500000; i++) {
+//            Equipamento eq = new Equipamento();
+//            String name = df.getRandomText(3, 10);
+//            String marca = df.getRandomText(3, 10);
+//            eq.setNome(name);
+//            eq.setMarca(marca);
+//            Status st = new Status();
+//            st.setIdstatus(df.getNumberBetween(1, 4));
+//            eq.setIdstatus(st);
+//            Viatura vt = new Viatura();
+//            vt.setIdviatura(df.getNumberBetween(1, 1500000));
+//            eq.setIdviatura(vt);
+//            Unidade un = new Unidade();
+//            un.setIdunidade(df.getNumberBetween(1, 10));
+//            eq.setIdunidade(un);
+//            eq.setIsalocado(df.chance(50));
+//            equipamentoDAO.save(eq);
+//            System.out.println(i);
+//        }
+//    }
+    
     public HashMap getMapStatus(List<Status> lstStatus) {
         HashMap<String, Integer> mapStatus = new HashMap<>();
         for (Status status : lstStatus) {
@@ -566,6 +592,10 @@ public class TelaEquipamento extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNomeAlterar;
     private javax.swing.JTextField txtPesquisar;
     // End of variables declaration//GEN-END:variables
+
+    public int somar(int valor1, int valor2) {
+      return valor1+valor2;
+    }
 
    
 }

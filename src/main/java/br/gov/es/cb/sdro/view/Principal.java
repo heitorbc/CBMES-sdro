@@ -9,7 +9,7 @@ import br.gov.es.cb.sdro.control.ControlMilitarAdapter;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import br.gov.es.cb.sdro.view.TelaAlocacao;
 /**
  *
  * @author Heitor

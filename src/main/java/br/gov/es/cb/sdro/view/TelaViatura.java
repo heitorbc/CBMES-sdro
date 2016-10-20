@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package br.gov.es.cb.sdro.view;
-
+//import org.fluttercode.datafactory.impl.DataFactory;
 import br.gov.es.cb.sdro.model.Categoria;
 import br.gov.es.cb.sdro.model.Status;
 import br.gov.es.cb.sdro.model.Tipocombustivel;
@@ -35,36 +35,35 @@ public class TelaViatura extends javax.swing.JInternalFrame {
     List<Viatura> lstViatura;
     ViaturaDAO viaturaDAO;
     private DefaultTableModel tableViatura;
-    
+
     List<Tipoviatura> lstTipoViatura;
     List<Status> lstStatus;
     List<Categoria> lstCategoria;
     List<Tipocombustivel> lstTipoCombustivel;
-    
+
     TipoviaturaDAO tipoViaturaDAO;
     StatusDAO statusDAO;
     CategoriaDAO categoriaDAO;
     TipocombustivelDAO tipoCombustivelDAO;
-    
-    HashMap<String,Integer> mapTipoViatura;
-    HashMap<String,Integer> mapStatus;
-    HashMap<String,Integer> mapCategoria;
-    HashMap<String,Integer> mapTipoCombustivel;
-    
+
+    HashMap<String, Integer> mapTipoViatura;
+    HashMap<String, Integer> mapStatus;
+    HashMap<String, Integer> mapCategoria;
+    HashMap<String, Integer> mapTipoCombustivel;
+
     Tipoviatura tipoViatura;
     Status status;
     Categoria categoria;
     Tipocombustivel tipoCombustivel;
     ChecaSimilaridadeString similaridadeString;
-    
+
     /**
      * Creates new form NovoJInternalFrame
      */
-    
     public TelaViatura() throws Exception {
-        initComponents();            
+        initComponents();
         tableViatura = (DefaultTableModel) jTableViatura.getModel();
-        viaturaDAO = new ViaturaDAO();
+           viaturaDAO = new ViaturaDAO();
         similaridadeString = new ChecaSimilaridadeString();
 
         tipoViatura = new Tipoviatura();
@@ -76,7 +75,7 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         comboTipoViatura.removeAllItems();
         for (Tipoviatura tipoViatura : lstTipoViatura) {
             comboTipoViatura.addItem(tipoViatura.getDescricao());
-        }    
+        }
         status = new Status();
         lstStatus = new ArrayList<>();
         statusDAO = new StatusDAO();
@@ -103,104 +102,109 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         comboTipoCombustivel.removeAllItems();
         for (Tipocombustivel tipoCombustivel : lstTipoCombustivel) {
             comboTipoCombustivel.addItem(tipoCombustivel.getDescricao());
-        }        
+        }
         addTabela();  //Usar quando clicar na aba
         this.setVisible(true);
     }
+
     
-     public HashMap getMapTipoViatura(List<Tipoviatura> lstTipoViatura){
-        HashMap<String,Integer> mapTipoViatura = new HashMap<>();
+
+    public HashMap getMapTipoViatura(List<Tipoviatura> lstTipoViatura) {
+        HashMap<String, Integer> mapTipoViatura = new HashMap<>();
         for (Tipoviatura tipoViatura : lstTipoViatura) {
             mapTipoViatura.put(tipoViatura.getDescricao(), tipoViatura.getIdtipoviatura());
         }
         return mapTipoViatura;
     }
-    public int getIdTipoViatura(String tipoViatura){
+
+    public int getIdTipoViatura(String tipoViatura) {
         for (Map.Entry<String, Integer> entry : mapTipoViatura.entrySet()) {
             String key = entry.getKey();
             int id = entry.getValue();
-            if(key.equals(tipoViatura)){
+            if (key.equals(tipoViatura)) {
                 return id;
             }
         }
         return 0;
     }
-    
-    public HashMap getMapStatus(List<Status> lstStatus){
-        HashMap<String,Integer> mapStatus = new HashMap<>();
+
+    public HashMap getMapStatus(List<Status> lstStatus) {
+        HashMap<String, Integer> mapStatus = new HashMap<>();
         for (Status status : lstStatus) {
             mapStatus.put(status.getDescricao(), status.getIdstatus());
         }
         return mapStatus;
     }
-    public int getIdStatus(String status){
+
+    public int getIdStatus(String status) {
         for (Map.Entry<String, Integer> entry : mapStatus.entrySet()) {
             String key = entry.getKey();
             int id = entry.getValue();
-            if(key.equals(status)){
+            if (key.equals(status)) {
                 return id;
             }
         }
         return 0;
     }
-    
-    public HashMap getMapCategoria(List<Categoria> lstCategoria){
-        HashMap<String,Integer> mapCategoria = new HashMap<>();
+
+    public HashMap getMapCategoria(List<Categoria> lstCategoria) {
+        HashMap<String, Integer> mapCategoria = new HashMap<>();
         for (Categoria categoria : lstCategoria) {
             mapCategoria.put(categoria.getDescricao(), categoria.getIdcategoria());
         }
         return mapCategoria;
     }
-    public int getIdCategoria(String categoria){
+
+    public int getIdCategoria(String categoria) {
         for (Map.Entry<String, Integer> entry : mapCategoria.entrySet()) {
             String key = entry.getKey();
             int id = entry.getValue();
-            if(key.equals(categoria)){
+            if (key.equals(categoria)) {
                 return id;
             }
         }
         return 0;
     }
-    
-    public HashMap getMapTipoCombustivel(List<Tipocombustivel> lstTipoCombustivel){
-        HashMap<String,Integer> mapTipoCombustivel = new HashMap<>();
+
+    public HashMap getMapTipoCombustivel(List<Tipocombustivel> lstTipoCombustivel) {
+        HashMap<String, Integer> mapTipoCombustivel = new HashMap<>();
         for (Tipocombustivel tipoCombustivel : lstTipoCombustivel) {
             mapTipoCombustivel.put(tipoCombustivel.getDescricao(), tipoCombustivel.getIdtipocombustivel());
         }
         return mapTipoCombustivel;
     }
-    public int getIdTipoCombustivel(String tipoCombustivel){
+
+    public int getIdTipoCombustivel(String tipoCombustivel) {
         for (Map.Entry<String, Integer> entry : mapTipoCombustivel.entrySet()) {
             String key = entry.getKey();
             int id = entry.getValue();
-            if(key.equals(tipoCombustivel)){
+            if (key.equals(tipoCombustivel)) {
                 return id;
             }
         }
         return 0;
     }
-    
-   
+
     public void addTabela() throws Exception {
         //pega o modelo da tabela
         //chama metodo da Class Gerenciador com o nome de ListaCliente passando um nome
-       
+
         lstViatura = viaturaDAO.buscaViaturas();
-        
+
         for (Viatura eq : lstViatura) {//vare a lista de Cliente obtida
-            
+
             Status status = eq.getIdstatus();
             Status statusResult = statusDAO.buscaStatusPorID(status.getIdstatus());
-           
+
             tableViatura.addRow(new Object[]{eq.getIdviatura(),
-                                                 eq.getPlaca(),
-                                                 eq.getModelo(), 
-                                                 statusResult.getDescricao()});
-            
+                eq.getPlaca(),
+                eq.getModelo(),
+                statusResult.getDescricao()});
+
         }
-       
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -746,7 +750,7 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         String tipoviaturadescricao = comboTipoViatura.getSelectedItem().toString();
         int idTipoViatura = getIdTipoViatura(tipoviaturadescricao);
@@ -786,11 +790,11 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         viaturaDAO.save(viatura);
     }//GEN-LAST:event_btnSalvarActionPerformed
 
-    
+
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-        int linha  = jTableViatura.getSelectedRow();
+        int linha = jTableViatura.getSelectedRow();
         codigo = Integer.parseInt(jTableViatura.getValueAt(linha, 0).toString());
-       
+
         String tipoviaturadescricao = comboTipoViaturaAlterar.getSelectedItem().toString();
         int idTipoViatura = getIdTipoViatura(tipoviaturadescricao);
         tipoViatura.setIdtipoviatura(idTipoViatura);
@@ -826,37 +830,37 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         viatura.setIdstatus(status);
         viatura.setIdcategoria(categoria);
         viatura.setIdtipocombustivel(tipoCombustivel);
-        
+
         viaturaDAO.update(viatura);
     }//GEN-LAST:event_btnAlterarActionPerformed
 
-    
+
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-        int linha  = jTableViatura.getSelectedRow();
-          codigo = Integer.parseInt(jTableViatura.getValueAt(linha, 0).toString());
-          Viatura eq = new Viatura();
-          
-          eq.setIdviatura(codigo);
-          viaturaDAO.remove(eq);
+        int linha = jTableViatura.getSelectedRow();
+        codigo = Integer.parseInt(jTableViatura.getValueAt(linha, 0).toString());
+        Viatura eq = new Viatura();
+
+        eq.setIdviatura(codigo);
+        viaturaDAO.remove(eq);
     }//GEN-LAST:event_btnExcluirActionPerformed
 
-    
+
     private void txtPesquisarCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtPesquisarCaretPositionChanged
 
     }//GEN-LAST:event_txtPesquisarCaretPositionChanged
 
-    
+
     private void txtPesquisarInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtPesquisarInputMethodTextChanged
 
     }//GEN-LAST:event_txtPesquisarInputMethodTextChanged
 
-    
+
     private void txtPesquisarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarKeyPressed
         String input = txtPesquisar.getText();
         System.out.println(input);
 
-        if (jTableViatura.getRowCount() > 0){
-            for (int i=0;i<=jTableViatura.getRowCount();i++){
+        if (jTableViatura.getRowCount() > 0) {
+            for (int i = 0; i <= jTableViatura.getRowCount(); i++) {
                 tableViatura.removeRow(0);
             }
 
@@ -864,115 +868,114 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         for (Viatura eq : lstViatura) {
             float result = 0;
             try {
-                result = similaridadeString.checkSimilarity(eq.getPlaca(),input);     //getPLACA()
+                result = similaridadeString.checkSimilarity(eq.getPlaca(), input);     //getPLACA()
             } catch (Exception ex) {
                 Logger.getLogger(TelaViatura.class.getName()).log(Level.SEVERE, null, ex);
             }
-            System.out.println("result"+result);
-            if(result > 0.50){
+            System.out.println("result" + result);
+            if (result > 0.50) {
                 Status status = eq.getIdstatus();
                 Status statusResult = statusDAO.buscaStatusPorID(status.getIdstatus());
                 tableViatura.addRow(new Object[]{eq.getIdviatura(),
-                                                 eq.getPlaca(),
-                                                 eq.getModelo(), 
-                                                 statusResult.getDescricao()});
+                    eq.getPlaca(),
+                    eq.getModelo(),
+                    statusResult.getDescricao()});
             }
 
         }
-        if(input.equals("")){
+        if (input.equals("")) {
             for (Viatura eq : lstViatura) {
                 Status status = eq.getIdstatus();
                 Status statusResult = statusDAO.buscaStatusPorID(status.getIdstatus());
                 tableViatura.addRow(new Object[]{eq.getIdviatura(),
-                                                 eq.getPlaca(),
-                                                 eq.getModelo(), 
-                                                 statusResult.getDescricao()});
+                    eq.getPlaca(),
+                    eq.getModelo(),
+                    statusResult.getDescricao()});
             }
 
         }
     }//GEN-LAST:event_txtPesquisarKeyPressed
 
-    
+
     private void jTableViaturaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableViaturaMouseClicked
-        int linha  = jTableViatura.getSelectedRow();
+        int linha = jTableViatura.getSelectedRow();
         codigo = Integer.parseInt(jTableViatura.getValueAt(linha, 0).toString());
         for (Viatura eq : lstViatura) {
             System.out.println(eq.getIdstatus());
-            if(eq.getIdviatura().equals(codigo)){
+            if (eq.getIdviatura().equals(codigo)) {
                 //txt Alterar.setText(eq.getIdviatura());
                 txtPrefixoAlterar.setText(eq.getPrefixo());
                 txtPlacaAlterar.setText(eq.getPlaca());
                 txtMarcaAlterar.setText(eq.getMarca());
                 txtModeloAlterar.setText(eq.getModelo());
                 txtAnoAlterar.setText(eq.getAno().toString());
-                txtCapAguaAlterar.setText(eq.getCapagua().toString());    
+                txtCapAguaAlterar.setText(eq.getCapagua().toString());
                 txtCapPessoasAlterar.setText(eq.getCappessoas().toString());
-                
+
                 //TipoViatura
                 comboTipoViaturaAlterar.removeAllItems();
                 System.out.println(eq.getIdtipoviatura().getDescricao());
                 System.out.println(eq.getIdtipoviatura().getIdtipoviatura());
                 comboTipoViaturaAlterar.addItem(eq.getIdtipoviatura().getDescricao());
                 for (Tipoviatura tipoViatura : lstTipoViatura) {
-                    if(!tipoViatura.getDescricao().equals(eq.getIdtipoviatura().getDescricao())){
+                    if (!tipoViatura.getDescricao().equals(eq.getIdtipoviatura().getDescricao())) {
                         comboTipoViaturaAlterar.addItem(status.getDescricao());
                     }
                 }
-                
+
                 //Status    
                 comboStatusAlterar.removeAllItems();
                 System.out.println(eq.getIdstatus().getDescricao());
                 System.out.println(eq.getIdstatus().getIdstatus());
                 comboStatusAlterar.addItem(eq.getIdstatus().getDescricao());
                 for (Status status : lstStatus) {
-                    if(!status.getDescricao().equals(eq.getIdstatus().getDescricao())){
+                    if (!status.getDescricao().equals(eq.getIdstatus().getDescricao())) {
                         comboStatusAlterar.addItem(status.getDescricao());
                     }
                 }
-                
+
                 //Categoria
                 comboCategoriaAlterar.removeAllItems();
                 System.out.println(eq.getIdcategoria().getDescricao());
                 System.out.println(eq.getIdcategoria().getIdcategoria());
                 comboCategoriaAlterar.addItem(eq.getIdcategoria().getDescricao());
                 for (Categoria categoria : lstCategoria) {
-                    if(!categoria.getDescricao().equals(eq.getIdcategoria().getDescricao())){
+                    if (!categoria.getDescricao().equals(eq.getIdcategoria().getDescricao())) {
                         comboCategoriaAlterar.addItem(categoria.getDescricao());
                     }
                 }
-                
+
                 //TipoCombustivel
                 comboTipoCombustivelAlterar.removeAllItems();
                 System.out.println(eq.getIdtipocombustivel().getDescricao());
                 System.out.println(eq.getIdtipocombustivel().getIdtipocombustivel());
                 comboTipoCombustivelAlterar.addItem(eq.getIdtipocombustivel().getDescricao());
                 for (Tipocombustivel tipoCombustivel : lstTipoCombustivel) {
-                    if(!tipoCombustivel.getDescricao().equals(eq.getIdtipocombustivel().getDescricao())){
+                    if (!tipoCombustivel.getDescricao().equals(eq.getIdtipocombustivel().getDescricao())) {
                         comboTipoCombustivelAlterar.addItem(status.getDescricao());
                     }
                 }
-                
+
             }
         }
     }//GEN-LAST:event_jTableViaturaMouseClicked
 
-    
+
     private void jTableViaturaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableViaturaKeyPressed
-        int linha  = jTableViatura.getSelectedRow();
+        int linha = jTableViatura.getSelectedRow();
         codigo = Integer.parseInt(jTableViatura.getValueAt(linha, 0).toString());
     }//GEN-LAST:event_jTableViaturaKeyPressed
 
-    
+
     private void txtPlacaAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPlacaAlterarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPlacaAlterarActionPerformed
 
-    
+
     private void txtPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPesquisarActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
@@ -1052,5 +1055,39 @@ public class TelaViatura extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtPrefixoAlterar;
     // End of variables declaration//GEN-END:variables
 
-    
+//    public void populaTabela() {
+//        DataFactory df = new DataFactory();
+//        for (int i = 0; i < 1475000; i++) {
+//
+//            Unidade unidade = new Unidade();
+//            unidade.setIdunidade(1);
+//            Viatura viatura = new Viatura();
+//            Status st = new Status();
+//            st.setIdstatus(df.getNumberBetween(1, 5));
+//            Categoria ct = new Categoria();
+//            int cat = df.getNumberBetween(1, 4);
+//            ct.setIdcategoria(1);
+//            Tipoviatura tp = new Tipoviatura();
+//            tp.setIdtipoviatura(df.getNumberBetween(1, 22));
+//            Tipocombustivel tc = new Tipocombustivel();
+//            tc.setIdtipocombustivel(df.getNumberBetween(1, 9));
+//            viatura.setIdunidade(unidade);
+//            viatura.setIsalocado(df.chance(50));
+//            viatura.setIscbmes(df.chance(50));
+//            viatura.setPrefixo(df.getRandomText(3, 8));
+//            viatura.setPlaca(df.getRandomText(3, 8));
+//            viatura.setMarca(df.getRandomText(3,8));
+//            viatura.setAno(df.getNumberBetween(2000, 2015));
+//            viatura.setModelo(df.getRandomText(5, 12));
+//            viatura.setCappessoas(df.getNumberBetween(1, 8));
+//            viatura.setCapagua(df.getNumberBetween(1, 20000));
+//            viatura.setIdtipoviatura(tp);
+//            viatura.setIdstatus(st);
+//            viatura.setIdcategoria(ct);
+//            viatura.setIdtipocombustivel(tc);
+//            viaturaDAO.save(viatura);
+//            
+//            if(i % 500 == 0) System.out.println("Pos "+i);
+//        }
+//    }
 }

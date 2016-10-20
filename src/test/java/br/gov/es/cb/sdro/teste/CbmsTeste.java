@@ -35,8 +35,8 @@ public class CbmsTeste {
     
       @When("^eu quero somar$")
     public void euQueroSomar() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-       // this.resultado = telaEquipamento.somar(valor1,valor2);
+         //Write code here that turns the phrase above into concrete actions
+        this.resultado = telaEquipamento.somar(valor1,valor2);
     }
     
      @Then("^Eu quero como resultado o numero (\\d+)$")

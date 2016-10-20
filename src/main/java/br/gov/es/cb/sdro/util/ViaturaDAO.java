@@ -5,6 +5,7 @@
  */
 package br.gov.es.cb.sdro.util;
 
+import br.gov.es.cb.sdro.model.Unidade;
 import br.gov.es.cb.sdro.model.Viatura;
 import java.util.List;
 import javax.persistence.EntityExistsException;
@@ -31,8 +32,13 @@ public class ViaturaDAO extends AbstractDAO<Viatura>{
     }
     
      public List<Viatura> buscaViaturasDisponiveis(){
-        busca = "Viatura.findAllDisponiveis";
-        listaViaturas = (List<Viatura>) buscaListaSemParametro();
+        Unidade un = new Unidade();
+        un.setIdunidade(2);
+         busca = "Viatura.findAllDisponiveis";
+        parametro = "idUnidade";
+        query = em.createNamedQuery(busca);
+        query.setParameter(parametro,un);
+        List<Viatura> listaViaturas = query.getResultList();;
         return listaViaturas;
     }
     public Viatura buscaViaturaPorID(int id){
@@ -85,5 +91,14 @@ public class ViaturaDAO extends AbstractDAO<Viatura>{
                        em.getTransaction().rollback();
               }
               return false; 
+    }
+
+    public List<Viatura> buscaViaturasAlocadas(Unidade unidade) {
+        busca = "Viatura.findAllAlocadas";
+        parametro = "idUnidade";
+        query = em.createNamedQuery(busca);
+        query.setParameter(parametro,unidade);
+        List<Viatura> listaViaturas = query.getResultList();;
+        return listaViaturas;
     }
 }
