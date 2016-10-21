@@ -16,6 +16,7 @@
     <class>br.gov.es.cb.sdro.model.Unidade</class>
     <class>br.gov.es.cb.sdro.model.Equipe</class>
     <class>br.gov.es.cb.sdro.model.SafoFuncionario</class>
+    <class>br.gov.es.cb.sdro.model.Usuario</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/sdro"/>
       <property name="javax.persistence.jdbc.user" value="admin"/>
