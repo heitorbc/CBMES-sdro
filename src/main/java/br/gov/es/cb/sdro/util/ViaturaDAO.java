@@ -14,91 +14,110 @@ import javax.persistence.EntityExistsException;
  *
  * @author Heitor
  */
-public class ViaturaDAO extends AbstractDAO<Viatura>{
+public class ViaturaDAO extends AbstractDAO<Viatura> {
+
     Viatura viatura;
     List<Viatura> listaViaturas;
-    
+
     public Viatura buscaViaturaPorNome(String nome) {
         busca = "Viatura.findByNome";
         parametro = "nome";
         viatura = buscaPorString(nome);
         return viatura;
     }
-    
-    public List<Viatura> buscaViaturas(){
+
+    public List<Viatura> buscaViaturas() {
         busca = "Viatura.findAll";
         listaViaturas = (List<Viatura>) buscaListaSemParametro();
         return listaViaturas;
     }
-    
-     public List<Viatura> buscaViaturasDisponiveis(){
+
+    public List<Viatura> buscaViaturasDisponiveis() {
         Unidade un = new Unidade();
         un.setIdunidade(2);
-         busca = "Viatura.findAllDisponiveis";
+        busca = "Viatura.findAllDisponiveis";
         parametro = "idUnidade";
         query = em.createNamedQuery(busca);
-        query.setParameter(parametro,un);
+        query.setParameter(parametro, un);
         List<Viatura> listaViaturas = query.getResultList();;
         return listaViaturas;
     }
-    public Viatura buscaViaturaPorID(int id){
-      busca =  "Viatura.findByIdviatura";
-      parametro = "idviatura";
-      return buscaPorInteger(id);
+
+    public Viatura buscaViaturaPorID(int id) {
+        busca = "Viatura.findByIdviatura";
+        parametro = "idviatura";
+        return buscaPorInteger(id);
     }
-    
-    
+
     public boolean update(Viatura obj) {
-                   try {
-                            em.getTransaction().begin();
-                            em.merge(obj);
-                            em.getTransaction().commit();
-                            return true;
-                   } catch (Exception ex) {
-                            ex.printStackTrace();
-                            em.getTransaction().rollback();
-                   }
-                   return false;
-         }
+        try {
+            em.getTransaction().begin();
+            em.merge(obj);
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            em.getTransaction().rollback();
+        }
+        return false;
+    }
+
     @Override
     public boolean remove(Viatura obj) {
-              try {
-                       em.getTransaction().begin();
-                       obj = em.find(obj.getClass(), obj.getIdviatura());
-                       em.remove(obj);
-                       em.getTransaction().commit();
-                       return true;
-              } catch (Exception ex) {
-                       ex.printStackTrace();
-                       em.getTransaction().rollback();
-              }
-              return false;
+        try {
+            em.getTransaction().begin();
+            obj = em.find(obj.getClass(), obj.getIdviatura());
+            em.remove(obj);
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            em.getTransaction().rollback();
+        }
+        return false;
     }
-    
-    public boolean updateIsAlocado(Viatura obj){
-       try {
-                       em.getTransaction().begin();
+
+    public boolean updateIsAlocado(Viatura obj) {
+        try {
+            em.getTransaction().begin();
 //                       obj = em.find(obj.getClass(), obj.getIdviatura());
-                       busca = "Viatura.UpdateIsAlocado";
-                       query = em.createNamedQuery(busca);
-                       parametro = "idviatura";
-                       query.setParameter(parametro, obj.getIdviatura());
-                       query.executeUpdate();
-                       em.getTransaction().commit();
-                       return true;
-              } catch (Exception ex) {
-                       ex.printStackTrace();
-                       em.getTransaction().rollback();
-              }
-              return false; 
+            busca = "Viatura.UpdateIsAlocado";
+            query = em.createNamedQuery(busca);
+            parametro = "idviatura";
+            query.setParameter(parametro, obj.getIdviatura());
+            query.executeUpdate();
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            em.getTransaction().rollback();
+        }
+        return false;
     }
 
     public List<Viatura> buscaViaturasAlocadas(Unidade unidade) {
         busca = "Viatura.findAllAlocadas";
         parametro = "idUnidade";
         query = em.createNamedQuery(busca);
-        query.setParameter(parametro,unidade);
+        query.setParameter(parametro, unidade);
         List<Viatura> listaViaturas = query.getResultList();;
         return listaViaturas;
+    }
+
+    public boolean liberaViatura(Viatura obj) {
+
+        try {
+            em.getTransaction().begin();
+            busca = "Viatura.liberaViatura";
+            query = em.createNamedQuery(busca);
+            parametro = "idviatura";
+            query.setParameter(parametro, obj.getIdviatura());
+            query.executeUpdate();
+            em.getTransaction().commit();
+            return true;
+        } catch (Exception ex) {
+            em.getTransaction().rollback();
+        }
+        return false;
     }
 }

@@ -64,6 +64,8 @@ public class EquipamentoDAO  extends AbstractDAO<Equipamento>{
                      }
                      return false;
            }
+     
+     
 
    public Equipamento buscaEquipamentoPorID(int id){
         busca =  "Equipamento.findByIdequipamento";
@@ -89,7 +91,27 @@ public class EquipamentoDAO  extends AbstractDAO<Equipamento>{
               }
               return false; 
     }
-
+    public boolean liberaEquipamento(Equipamento obj){
+       try {
+                       em.getTransaction().begin();
+//                       obj = em.find(obj.getClass(), obj.getIdviatura());
+                       busca = "Equipamento.liberaEquipamento";
+                       query = em.createNamedQuery(busca);
+//                       String parametro1 = "idviatura";
+                       String parametro2 = "idequipamento";
+//                       query.setParameter(parametro1, obj.getIdviatura());
+                       query.setParameter(parametro2, obj.getIdequipamento());
+                       query.executeUpdate();
+                       em.getTransaction().commit();
+                       return true;
+              } catch (Exception ex) {
+                       ex.printStackTrace();
+                       em.getTransaction().rollback();
+              }
+              return false; 
+    }
+    
+    
     public List<Equipamento> buscaEquipamentosAlocadosViatura(Viatura viatura) {
         busca = "Equipamento.findAllAlocadosViatura";
         parametro = "idViatura";
