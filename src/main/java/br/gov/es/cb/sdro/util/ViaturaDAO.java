@@ -8,7 +8,6 @@ package br.gov.es.cb.sdro.util;
 import br.gov.es.cb.sdro.model.Unidade;
 import br.gov.es.cb.sdro.model.Viatura;
 import java.util.List;
-import javax.persistence.EntityExistsException;
 
 /**
  *

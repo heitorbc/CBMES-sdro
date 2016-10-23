@@ -31,7 +31,7 @@ public class CbmsTeste {
         valor2 = arg2;
     }
     
-    @When("^eu quero somar$")
+    @When("^eu quero realocar$")
     public void euQueroSomar() throws Throwable {
         this.resultado = telaEquipamento.somar(valor1, valor2);
     }

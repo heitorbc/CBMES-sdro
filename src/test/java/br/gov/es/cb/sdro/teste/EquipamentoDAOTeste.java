@@ -6,129 +6,37 @@
 package br.gov.es.cb.sdro.teste;
 
 import br.gov.es.cb.sdro.model.Equipamento;
-import br.gov.es.cb.sdro.model.Unidade;
-import br.gov.es.cb.sdro.model.Viatura;
 import br.gov.es.cb.sdro.util.AbstractDAO;
+import br.gov.es.cb.sdro.util.EquipamentoDAO;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import java.util.List;
+import cucumber.api.java.en.When;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  *
  * @author tiago
  */
 public class EquipamentoDAOTeste extends AbstractDAO<Equipamento>{
-    Equipamento equipamento;
-    List<Equipamento> listaEquipamentos;
-  
-    
-    public Equipamento buscaEquipamentoPorNome(String nome) {
-        busca = "Equipamento.findByNome";
-        parametro = "nome";
-        equipamento = buscaPorString(nome);
-        return equipamento;
-    }
-    
-    public List<Equipamento> buscaEquipamentos(){
-        busca = "Equipamento.findAll";
-        listaEquipamentos = (List<Equipamento>) buscaListaSemParametro();
-        return listaEquipamentos;
-    }
-    
-    public List<Equipamento> buscaEquipamentosDisponiveis(){
-        busca = "Equipamento.findAllDisponiveis";
-        listaEquipamentos = (List<Equipamento>) buscaListaSemParametro();
-        return listaEquipamentos;
-    }
-    
-    @Override
-    public boolean remove(Equipamento obj) {
-        try {
-            em.getTransaction().begin();
-            obj = em.find(obj.getClass(),obj.getIdequipamento());
-            em.remove(obj);
-            em.getTransaction().commit();
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            em.getTransaction().rollback();
-        }
-        return false;
-    }
-  
-    public boolean update(Equipamento obj) {
-        try {
-            em.getTransaction().begin();
-            em.merge(obj);
-            em.getTransaction().commit();
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            em.getTransaction().rollback();
-        }
-        return false;
-    }
+    private boolean resultado;
+    EquipamentoDAO equipamentoDAO;
 
-    public Equipamento buscaEquipamentoPorID(int id){
-        busca =  "Equipamento.findByIdequipamento";
-        parametro = "idequipamento";
-        return buscaPorInteger(id);
+    public EquipamentoDAOTeste() throws Exception {
+        equipamentoDAO =  new EquipamentoDAO();
+    }
+    
+    @Given("^eu tenho o objeto equipamento (\\d+)$")
+        public void euTenhoOObjeto(int arg1, int arg2) throws Throwable {
+    }
+    
+    @When("^eu quero realocar$")
+    public void euQueroRealocar(Equipamento obj) throws Throwable {
+        this.resultado = equipamentoDAO.updateIsAlocado(obj);
     }
     
     @Then("^eu quero como resultado o boolean (\\d+)$")
-    public boolean updateIsAlocado(Equipamento obj){
-        try {
-            em.getTransaction().begin();
-            //obj = em.find(obj.getClass(), obj.getIdviatura());
-            busca = "Equipamento.UpdateEstadoEquipamento";
-            query = em.createNamedQuery(busca);
-            String parametro1 = "idviatura";
-            String parametro2 = "idequipamento";
-            query.setParameter(parametro1, obj.getIdviatura());
-            query.setParameter(parametro2, obj.getIdequipamento());
-            query.executeUpdate();
-            em.getTransaction().commit();
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            em.getTransaction().rollback();
-        }
-        return false;
-    }
-    
-    public boolean liberaEquipamento(Equipamento obj){
-        try {
-            em.getTransaction().begin();
-            //obj = em.find(obj.getClass(), obj.getIdviatura());
-            busca = "Equipamento.liberaEquipamento";
-            query = em.createNamedQuery(busca);
-            //String parametro1 = "idviatura";
-            String parametro2 = "idequipamento";
-            //query.setParameter(parametro1, obj.getIdviatura());
-            query.setParameter(parametro2, obj.getIdequipamento());
-            query.executeUpdate();
-            em.getTransaction().commit();
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            em.getTransaction().rollback();
-        }
-        return false; 
-    }
-    
-    public List<Equipamento> buscaEquipamentosAlocadosViatura(Viatura viatura) {
-        busca = "Equipamento.findAllAlocadosViatura";
-        parametro = "idViatura";
-        query = em.createNamedQuery(busca);
-        query.setParameter(parametro,viatura);
-        List<Equipamento> listaEquipamentos = query.getResultList();;
-        return  listaEquipamentos; 
-    }
-    public List<Equipamento> buscaEquipamentosDisponiveisUnidade(Unidade unidade) {
-        busca = "Equipamento.findAllDisponiveisUnidade";
-        parametro = "idUnidade";
-        query = em.createNamedQuery(busca);
-        query.setParameter(parametro,unidade);
-        List<Equipamento> listaEquipamentos = query.getResultList();;
-        return  listaEquipamentos; 
+    public void euQueroComoResultadoOBoolean(boolean resultadoEXperado) throws Throwable {
+        assertThat(resultado, is(resultadoEXperado));
     }
 }

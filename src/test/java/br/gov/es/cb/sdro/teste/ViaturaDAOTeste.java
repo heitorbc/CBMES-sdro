@@ -5,119 +5,38 @@
  */
 package br.gov.es.cb.sdro.teste;
 
-import br.gov.es.cb.sdro.model.Unidade;
 import br.gov.es.cb.sdro.model.Viatura;
 import br.gov.es.cb.sdro.util.AbstractDAO;
+import br.gov.es.cb.sdro.util.ViaturaDAO;
+import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import java.util.List;
+import cucumber.api.java.en.When;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  *
  * @author tiago
  */
 public class ViaturaDAOTeste extends AbstractDAO<Viatura> {
-    Viatura viatura;
-    List<Viatura> listaViaturas;
+    private boolean resultado;
+    ViaturaDAO viaturaDAO;
 
-    public Viatura buscaViaturaPorNome(String nome) {
-        busca = "Viatura.findByNome";
-        parametro = "nome";
-        viatura = buscaPorString(nome);
-        return viatura;
+    public ViaturaDAOTeste() throws Exception {
+        viaturaDAO =  new ViaturaDAO();
     }
-
-    public List<Viatura> buscaViaturas() {
-        busca = "Viatura.findAll";
-        listaViaturas = (List<Viatura>) buscaListaSemParametro();
-        return listaViaturas;
+    
+    @Given("^eu tenho o objeto equipamento (\\d+)$")
+    public void euTenhoOObjeto(int arg1, int arg2) throws Throwable {
     }
-
-    public List<Viatura> buscaViaturasDisponiveisUnidade(Unidade unidade) {
-        Unidade un = new Unidade();
-        busca = "Viatura.findAllDisponiveis";
-        parametro = "idUnidade";
-        query = em.createNamedQuery(busca);
-        query.setParameter(parametro, unidade);
-        List<Viatura> listaViaturas = query.getResultList();;
-        return listaViaturas;
-    }
-
-    public Viatura buscaViaturaPorID(int id) {
-        busca = "Viatura.findByIdviatura";
-        parametro = "idviatura";
-        return buscaPorInteger(id);
-    }
-
-    public boolean update(Viatura obj) {
-        try {
-            em.getTransaction().begin();
-            em.merge(obj);
-            em.getTransaction().commit();
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            em.getTransaction().rollback();
-        }
-        return false;
-    }
-
-    @Override
-    public boolean remove(Viatura obj) {
-        try {
-            em.getTransaction().begin();
-            obj = em.find(obj.getClass(), obj.getIdviatura());
-            em.remove(obj);
-            em.getTransaction().commit();
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            em.getTransaction().rollback();
-        }
-        return false;
+    
+    @When("^eu quero realocar$")
+    public void euQueroRealocar(Viatura obj) throws Throwable {
+        this.resultado = viaturaDAO.updateIsAlocado(obj);
     }
     
     @Then("^eu quero como resultado o boolean (\\d+)$")
-    public boolean updateIsAlocado(Viatura obj) {
-        try {
-            em.getTransaction().begin();
-            //obj = em.find(obj.getClass(), obj.getIdviatura());
-            busca = "Viatura.UpdateIsAlocado";
-            query = em.createNamedQuery(busca);
-            parametro = "idviatura";
-            query.setParameter(parametro, obj.getIdviatura());
-            query.executeUpdate();
-            em.getTransaction().commit();
-            return true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            em.getTransaction().rollback();
-        }
-        return false;
-    }
-
-    public List<Viatura> buscaViaturasAlocadas(Unidade unidade) {
-        busca = "Viatura.findAllAlocadas";
-        parametro = "idUnidade";
-        query = em.createNamedQuery(busca);
-        query.setParameter(parametro, unidade);
-        List<Viatura> listaViaturas = query.getResultList();;
-        return listaViaturas;
-    }
-
-    public boolean liberaViatura(Viatura obj) {
-
-        try {
-            em.getTransaction().begin();
-            busca = "Viatura.liberaViatura";
-            query = em.createNamedQuery(busca);
-            parametro = "idviatura";
-            query.setParameter(parametro, obj.getIdviatura());
-            query.executeUpdate();
-            em.getTransaction().commit();
-            return true;
-        } catch (Exception ex) {
-            em.getTransaction().rollback();
-        }
-        return false;
+    public void euQueroComoResultadoOBoolean(boolean resultadoEXperado) throws Throwable {
+        assertThat(resultado, is(resultadoEXperado));
     }
 }
