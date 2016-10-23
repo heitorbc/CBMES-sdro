@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.gov.es.cb.sdro.util;
+package br.gov.es.cb.sdro.teste;
 
 import br.gov.es.cb.sdro.model.Unidade;
 import br.gov.es.cb.sdro.model.Viatura;
+import br.gov.es.cb.sdro.util.AbstractDAO;
+import cucumber.api.java.en.Then;
 import java.util.List;
-import javax.persistence.EntityExistsException;
 
 /**
  *
- * @author Heitor
+ * @author tiago
  */
-public class ViaturaDAO extends AbstractDAO<Viatura> {
-
+public class ViaturaDAOTeste extends AbstractDAO<Viatura> {
     Viatura viatura;
     List<Viatura> listaViaturas;
 
@@ -75,7 +75,8 @@ public class ViaturaDAO extends AbstractDAO<Viatura> {
         }
         return false;
     }
-
+    
+    @Then("^eu quero como resultado o boolean (\\d+)$")
     public boolean updateIsAlocado(Viatura obj) {
         try {
             em.getTransaction().begin();

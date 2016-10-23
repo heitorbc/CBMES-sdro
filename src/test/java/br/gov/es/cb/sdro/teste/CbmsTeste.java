@@ -24,25 +24,20 @@ public class CbmsTeste {
     public CbmsTeste() throws Exception {
         telaEquipamento =  new TelaEquipamento();
     }
-
     
     @Given("^eu tenho o numero (\\d+) e (\\d+)$")
     public void euTenhoONumeroE(int arg1, int arg2) throws Throwable {
-
         valor1 = arg1;
         valor2 = arg2;
     }
     
-      @When("^eu quero somar$")
+    @When("^eu quero somar$")
     public void euQueroSomar() throws Throwable {
-         //Write code here that turns the phrase above into concrete actions
-        this.resultado = telaEquipamento.somar(valor1,valor2);
+        this.resultado = telaEquipamento.somar(valor1, valor2);
     }
     
-     @Then("^Eu quero como resultado o numero (\\d+)$")
+    @Then("^Eu quero como resultado o numero (\\d+)$")
     public void euQueroComoResultadoONumero(int resultadoEXperado) throws Throwable {
-
         assertThat(resultado, is(resultadoEXperado));
-
     }
 }

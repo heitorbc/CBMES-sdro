@@ -3,18 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.gov.es.cb.sdro.util;
+package br.gov.es.cb.sdro.teste;
 
 import br.gov.es.cb.sdro.model.Equipamento;
 import br.gov.es.cb.sdro.model.Unidade;
 import br.gov.es.cb.sdro.model.Viatura;
-import java.util.ArrayList;
+import br.gov.es.cb.sdro.util.AbstractDAO;
+import cucumber.api.java.en.Then;
 import java.util.List;
+
 /**
  *
- * @author Heitor
+ * @author tiago
  */
-public class EquipamentoDAO  extends AbstractDAO<Equipamento>{
+public class EquipamentoDAOTeste extends AbstractDAO<Equipamento>{
     Equipamento equipamento;
     List<Equipamento> listaEquipamentos;
   
@@ -71,7 +73,8 @@ public class EquipamentoDAO  extends AbstractDAO<Equipamento>{
         parametro = "idequipamento";
         return buscaPorInteger(id);
     }
-   
+    
+    @Then("^eu quero como resultado o boolean (\\d+)$")
     public boolean updateIsAlocado(Equipamento obj){
         try {
             em.getTransaction().begin();
