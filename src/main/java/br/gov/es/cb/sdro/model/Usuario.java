@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -26,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
+    @NamedQuery(name = "Usuario.checaLogin", query = "SELECT u FROM Usuario u WHERE u.login = :login and u.senha = :senha"),
     @NamedQuery(name = "Usuario.findByIdusuario", query = "SELECT u FROM Usuario u WHERE u.idusuario = :idusuario"),
     @NamedQuery(name = "Usuario.findByLogin", query = "SELECT u FROM Usuario u WHERE u.login = :login"),
     @NamedQuery(name = "Usuario.findBySenha", query = "SELECT u FROM Usuario u WHERE u.senha = :senha"),
@@ -46,7 +49,14 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "tipo_login")
     private int tipoLogin;
+    @JoinColumn(name = "idmilitar", referencedColumnName = "idmilitar")
+    @ManyToOne(optional = false)
+    private Militar idmilitar;
 
+    public Militar getIdmilitar() {
+        return idmilitar;
+    }
+    
     public Usuario() {
     }
 

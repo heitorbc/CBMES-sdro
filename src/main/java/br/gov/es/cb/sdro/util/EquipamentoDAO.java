@@ -6,6 +6,7 @@
 package br.gov.es.cb.sdro.util;
 
 import br.gov.es.cb.sdro.model.Equipamento;
+import br.gov.es.cb.sdro.model.Unidade;
 import br.gov.es.cb.sdro.model.Viatura;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,5 +121,14 @@ public class EquipamentoDAO  extends AbstractDAO<Equipamento>{
         List<Equipamento> listaEquipamentos = query.getResultList();;
         return  listaEquipamentos; 
     }
+    public List<Equipamento> buscaEquipamentosDisponiveisUnidade(Unidade unidade) {
+        busca = "Equipamento.findAllDisponiveisUnidade";
+        parametro = "idUnidade";
+        query = em.createNamedQuery(busca);
+        query.setParameter(parametro,unidade);
+        List<Equipamento> listaEquipamentos = query.getResultList();;
+        return  listaEquipamentos; 
+    }
+    
    
 }

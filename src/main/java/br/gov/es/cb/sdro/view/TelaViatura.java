@@ -13,6 +13,7 @@ import br.gov.es.cb.sdro.model.Unidade;
 import br.gov.es.cb.sdro.model.Viatura;
 import br.gov.es.cb.sdro.util.CategoriaDAO;
 import br.gov.es.cb.sdro.util.ChecaSimilaridadeString;
+import br.gov.es.cb.sdro.util.Sessao;
 import br.gov.es.cb.sdro.util.StatusDAO;
 import br.gov.es.cb.sdro.util.TipocombustivelDAO;
 import br.gov.es.cb.sdro.util.TipoviaturaDAO;
@@ -32,6 +33,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TelaViatura extends javax.swing.JInternalFrame {
     int codigo;
+    Sessao sessao;
     List<Viatura> lstViatura;
     ViaturaDAO viaturaDAO;
     private DefaultTableModel tableViatura;
@@ -62,6 +64,7 @@ public class TelaViatura extends javax.swing.JInternalFrame {
      */
     public TelaViatura() throws Exception {
         initComponents();
+        sessao = Sessao.getInstancia();
         tableViatura = (DefaultTableModel) jTableViatura.getModel();
            viaturaDAO = new ViaturaDAO();
         similaridadeString = new ChecaSimilaridadeString();
@@ -189,7 +192,7 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         //pega o modelo da tabela
         //chama metodo da Class Gerenciador com o nome de ListaCliente passando um nome
 
-        lstViatura = viaturaDAO.buscaViaturas();
+        lstViatura = viaturaDAO.buscaViaturasDisponiveisUnidade(sessao.getUnidade());
 
         for (Viatura eq : lstViatura) {//vare a lista de Cliente obtida
 
@@ -769,7 +772,7 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         tipoCombustivel.setIdtipocombustivel(idTipoCombustivel);
 
         Unidade unidade = new Unidade();
-        unidade.setIdunidade(1);
+        unidade.setIdunidade(sessao.getUnidade().getIdunidade());
         Viatura viatura = new Viatura();
         //       viatura.setIdviatura(101);
 //        viatura.setIdviatura(null);
@@ -811,12 +814,12 @@ public class TelaViatura extends javax.swing.JInternalFrame {
         int idTipoCombustivel = getIdTipoCombustivel(tipocombustiveldescricao);
         tipoCombustivel.setIdtipocombustivel(idTipoCombustivel);
 
-        Unidade unidade = new Unidade();
-        unidade.setIdunidade(1);
+       
+      
         Viatura viatura = new Viatura();
-        //       viatura.setIdviatura(101);
+       
         viatura.setIdviatura(codigo);
-        viatura.setIdunidade(unidade);
+        viatura.setIdunidade(sessao.getUnidade());
         viatura.setIsalocado(false);
         viatura.setIscbmes(false);
         viatura.setPrefixo(txtPrefixoAlterar.getText());

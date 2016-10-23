@@ -12,6 +12,7 @@ import br.gov.es.cb.sdro.model.Unidade;
 import br.gov.es.cb.sdro.model.Viatura;
 import br.gov.es.cb.sdro.util.ChecaSimilaridadeString;
 import br.gov.es.cb.sdro.util.EquipamentoDAO;
+import br.gov.es.cb.sdro.util.Sessao;
 import br.gov.es.cb.sdro.util.StatusDAO;
 import java.text.AttributedCharacterIterator;
 import java.util.AbstractList;
@@ -40,12 +41,13 @@ public class TelaEquipamento extends javax.swing.JInternalFrame {
     private DefaultTableModel tableEquipamentos;
     Status status;
     ChecaSimilaridadeString similaridadeString;
-
+    Sessao sessao;
     /**
      * Creates new form TelaEquipamento
      */
     public TelaEquipamento() throws Exception {
         initComponents();
+        sessao = Sessao.getInstancia();
         status = new Status();
         tableEquipamentos = (DefaultTableModel) jTableEquipamentos.getModel();
         equipamentoDAO = new EquipamentoDAO();
@@ -119,8 +121,8 @@ public class TelaEquipamento extends javax.swing.JInternalFrame {
         if (tableEquipamentos.getRowCount() > 0) {
             System.out.println("table    " + tableEquipamentos.getDataVector());
         }
-        lstEquipamentos = equipamentoDAO.buscaEquipamentos();
-       
+        lstEquipamentos = equipamentoDAO.buscaEquipamentosDisponiveisUnidade(sessao.getUnidade());
+        //lstEquipamentos = equipamentoDAO.buscaEquipamentos();
         for (Equipamento eq : lstEquipamentos) {
 
             Status status = eq.getIdstatus();
@@ -395,7 +397,7 @@ public class TelaEquipamento extends javax.swing.JInternalFrame {
             int id = getIdStatus(statusdescricao);
             status.setIdstatus(id);
             Unidade unidade = new Unidade();
-            unidade.setIdunidade(1);
+            unidade.setIdunidade(sessao.getUnidade().getIdunidade());
             Equipamento equipamento = new Equipamento();
             equipamento.setIdunidade(unidade);
             Viatura viatura = new Viatura();
@@ -432,10 +434,10 @@ public class TelaEquipamento extends javax.swing.JInternalFrame {
             String statusdescricao = jComboStatusAlterar.getSelectedItem().toString();
             int id = getIdStatus(statusdescricao);
             status.setIdstatus(id);
-            Unidade unidade = new Unidade();
-            unidade.setIdunidade(1);
+           // Unidade unidade = new Unidade();
+            //unidade.setIdunidade();
             Equipamento equipamento = new Equipamento();
-            equipamento.setIdunidade(unidade);
+            equipamento.setIdunidade(sessao.getUnidade());
             Viatura viatura = new Viatura();
 //       viatura.setIdviatura(0);
 //       equipamento.setIdviatura(viatura);

@@ -59,9 +59,9 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="txt_login" max="32767" attributes="0"/>
-                              <Component id="cmb_tipo" max="32767" attributes="0"/>
-                              <Component id="txp_senha" pref="176" max="32767" attributes="0"/>
+                              <Component id="txtLogin" max="32767" attributes="0"/>
+                              <Component id="jcomboTipoLogin" max="32767" attributes="0"/>
+                              <Component id="txtSenha" pref="176" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="lbl_tit_sdro" min="-2" pref="253" max="-2" attributes="0"/>
@@ -76,7 +76,7 @@
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="254" max="-2" attributes="0"/>
-                          <Component id="btn_logar" min="-2" pref="86" max="-2" attributes="0"/>
+                          <Component id="btnLogar" min="-2" pref="86" max="-2" attributes="0"/>
                           <EmptySpace pref="101" max="32767" attributes="0"/>
                           <Component id="btn_config" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -93,21 +93,21 @@
                   <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lbl_login" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txt_login" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtLogin" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="lbl_senha" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txp_senha" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtSenha" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="cmb_tipo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jcomboTipoLogin" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="lbl_tipo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btn_logar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnLogar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btn_config" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="58" max="32767" attributes="0"/>
@@ -125,7 +125,7 @@
             <Property name="text" type="java.lang.String" value="SDRO-CBMES"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="cmb_tipo">
+        <Component class="javax.swing.JComboBox" name="jcomboTipoLogin">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="4">
@@ -137,7 +137,7 @@
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cmb_tipoActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jcomboTipoLoginActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_login">
@@ -150,9 +150,9 @@
             <Property name="text" type="java.lang.String" value="senha"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txt_login">
+        <Component class="javax.swing.JTextField" name="txtLogin">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txt_loginActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtLoginActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_tipo">
@@ -160,21 +160,21 @@
             <Property name="text" type="java.lang.String" value="tipo"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JPasswordField" name="txp_senha">
+        <Component class="javax.swing.JPasswordField" name="txtSenha">
           <Properties>
             <Property name="text" type="java.lang.String" value="jPasswordField1"/>
           </Properties>
           <Events>
-            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txp_senhaFocusGained"/>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txp_senhaMouseClicked"/>
+            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtSenhaFocusGained"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtSenhaMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_logar">
+        <Component class="javax.swing.JButton" name="btnLogar">
           <Properties>
             <Property name="text" type="java.lang.String" value="logar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_logarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLogarActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_config">

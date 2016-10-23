@@ -15,6 +15,7 @@ import br.gov.es.cb.sdro.model.Unidade;
 import br.gov.es.cb.sdro.model.Viatura;
 import br.gov.es.cb.sdro.util.CategoriaDAO;
 import br.gov.es.cb.sdro.util.EquipamentoDAO;
+import br.gov.es.cb.sdro.util.Sessao;
 import br.gov.es.cb.sdro.util.StatusDAO;
 import br.gov.es.cb.sdro.util.TipocombustivelDAO;
 import br.gov.es.cb.sdro.util.TipoviaturaDAO;
@@ -35,11 +36,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TelaAlocacao extends javax.swing.JInternalFrame {
 
-    private DefaultTableModel tableViaturasDisponiveis;
+    DefaultTableModel tableViaturasDisponiveis;
     DefaultTableModel tableViaturasSelecionadasAlocacao;
     DefaultTableModel tableViaturasAlocadas;
     DefaultTableModel tableEquipamentosSelecionadosAlocacao;
     DefaultTableModel tableEquipamentosAlocados;
+    DefaultTableModel tableMilitares;
+    
     ViaturaDAO viaturaDAO;
     List<Viatura> lstViaturasDisponiveis;
     List<Viatura> lstViaturasAlocadas;
@@ -58,6 +61,7 @@ public class TelaAlocacao extends javax.swing.JInternalFrame {
     int idEquipamentoSelecionado;
     int idViaturaSelecionadaAlocacao;
     int idViaturaAlocada;
+    Sessao sessao;
     HashMap<Integer, ArrayList<Integer>> mapViaturaEquipamento;
     HashMap<Integer, ArrayList<Equipamento>> mapViaturaEquipamentoAlocados;
     EquipamentoDAO equipamentoDAO;
@@ -76,27 +80,35 @@ public class TelaAlocacao extends javax.swing.JInternalFrame {
 
     private TelaAlocacao() {
         initComponents();
-        lstEquipamentosSelecionados = new ArrayList<Integer>();
-        equipamentoDAO = new EquipamentoDAO();
-        mapViaturaEquipamento = new HashMap<Integer, ArrayList<Integer>>();
-        mapViaturaEquipamentoAlocados = new HashMap<Integer, ArrayList<Equipamento>>();
-        status = new Status();
-        categoria = new Categoria();
-        tpCombustivel = new Tipocombustivel();
-        tpViatura = new Tipoviatura();
-        statusDAO = new StatusDAO();
-        categoriaDAO = new CategoriaDAO();
-        tpCombustivelDAO = new TipocombustivelDAO();
-        tpViaturaDAO = new TipoviaturaDAO();
-        viaturaDAO = new ViaturaDAO();
+        sessao = Sessao.getInstancia();
+        
         tableViaturasDisponiveis = (DefaultTableModel) jTableViaturasDisponiveis.getModel();
         tableViaturasSelecionadasAlocacao = (DefaultTableModel) jTableViaturasSelecionadasAlocacao.getModel();
         tableEquipamentosSelecionadosAlocacao = (DefaultTableModel) jTableEquipamentosSelecionadosAlocacao.getModel();
         tableViaturasAlocadas = (DefaultTableModel) JTableViaturasAlocadas.getModel();
         tableEquipamentosAlocados = (DefaultTableModel) JTableEquipamentosAlocados.getModel();
-        lstViaturasDisponiveis = viaturaDAO.buscaViaturasDisponiveis();
+        tableMilitares = (DefaultTableModel) jTableMilitares.getModel();
+        
+        statusDAO = new StatusDAO();
+        categoriaDAO = new CategoriaDAO();
+        tpCombustivelDAO = new TipocombustivelDAO();
+        tpViaturaDAO = new TipoviaturaDAO();
+        viaturaDAO = new ViaturaDAO();
+        equipamentoDAO = new EquipamentoDAO();
+         
+        lstEquipamentosSelecionados = new ArrayList<Integer>();
         lstViaturasSelecionadasAlocacao = new ArrayList<Viatura>();
         lstAuxViaturas = new ArrayList<Integer>();
+        lstViaturasDisponiveis = viaturaDAO.buscaViaturasDisponiveisUnidade(sessao.getUnidade());
+        
+        mapViaturaEquipamento = new HashMap<Integer, ArrayList<Integer>>();
+        mapViaturaEquipamentoAlocados = new HashMap<Integer, ArrayList<Equipamento>>();
+       
+        status = new Status();
+        categoria = new Categoria();
+        tpCombustivel = new Tipocombustivel();
+        tpViatura = new Tipoviatura();
+        
         populaTabelaViaturasDisponiveis();
         // this.setVisible(true);
     }
@@ -213,6 +225,10 @@ public class TelaAlocacao extends javax.swing.JInternalFrame {
         JTableEquipamentosAlocados = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableMilitares = new javax.swing.JTable();
+        jComboStatusMilitar = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -394,7 +410,7 @@ public class TelaAlocacao extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(8, 8, 8)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -501,23 +517,64 @@ public class TelaAlocacao extends javax.swing.JInternalFrame {
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(228, Short.MAX_VALUE))
+                .addContainerGap(268, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Liberar Viaturas", jPanel3);
+
+        jTableMilitares.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Nome", "Posto"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTableMilitares);
+        if (jTableMilitares.getColumnModel().getColumnCount() > 0) {
+            jTableMilitares.getColumnModel().getColumn(0).setMaxWidth(200);
+        }
+
+        jComboStatusMilitar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel5.setText("Status");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 984, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 962, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboStatusMilitar, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 608, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jComboStatusMilitar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(436, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("tab4", jPanel4);
+        jTabbedPane1.addTab("Alocar/Liberar Militares", jPanel4);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -819,7 +876,6 @@ public class TelaAlocacao extends javax.swing.JInternalFrame {
             }
 
         }
-
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable JTableEquipamentosAlocados;
@@ -830,14 +886,17 @@ public class TelaAlocacao extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnRemoverEquipamento;
     private javax.swing.JButton btnRemoverViaturaAlocada;
     private javax.swing.JButton btnSalvarAlocacao;
+    private javax.swing.JComboBox<String> jComboStatusMilitar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
@@ -846,6 +905,7 @@ public class TelaAlocacao extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTableEquipamentosSelecionadosAlocacao;
+    private javax.swing.JTable jTableMilitares;
     private javax.swing.JTable jTableViaturasDisponiveis;
     private javax.swing.JTable jTableViaturasSelecionadasAlocacao;
     private javax.swing.JButton liberarViatura;

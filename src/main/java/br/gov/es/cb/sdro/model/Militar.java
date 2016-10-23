@@ -6,7 +6,9 @@
 package br.gov.es.cb.sdro.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Militar.findAll", query = "SELECT m FROM Militar m"),
+    @NamedQuery(name = "Militar.disponiveisUnidade", query = "SELECT m FROM Militar m where m.isalocado = false and m.idunidade = :idunidade"),
     @NamedQuery(name = "Militar.findByIdmilitar", query = "SELECT m FROM Militar m WHERE m.idmilitar = :idmilitar"),
     @NamedQuery(name = "Militar.findByIsalocado", query = "SELECT m FROM Militar m WHERE m.isalocado = :isalocado")})
 public class Militar implements Serializable {
@@ -48,7 +52,8 @@ public class Militar implements Serializable {
     @JoinColumn(name = "idunidade", referencedColumnName = "idunidade")
     @ManyToOne(optional = false)
     private Unidade idunidade;
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idmilitar")
+    private List<Usuario> usuarioList;
     public Militar() {
     }
 

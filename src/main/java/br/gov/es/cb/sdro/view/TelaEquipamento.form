@@ -245,7 +245,7 @@
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtMarcaAlterar" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="30" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnExcluir" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btnAlterar" alignment="3" min="-2" max="-2" attributes="0"/>

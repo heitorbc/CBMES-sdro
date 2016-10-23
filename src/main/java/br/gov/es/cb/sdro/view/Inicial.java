@@ -6,6 +6,14 @@
 package br.gov.es.cb.sdro.view;
 
 import br.gov.es.cb.sdro.control.ControlMilitarAdapter;
+import br.gov.es.cb.sdro.model.Militar;
+import br.gov.es.cb.sdro.model.Unidade;
+import br.gov.es.cb.sdro.model.Usuario;
+import br.gov.es.cb.sdro.util.Sessao;
+import br.gov.es.cb.sdro.util.UsuarioDAO;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -14,14 +22,19 @@ import br.gov.es.cb.sdro.control.ControlMilitarAdapter;
  */
 public class Inicial extends javax.swing.JFrame {
     private ControlMilitarAdapter controlMilitar;
+    private HashMap<String,Integer> mapComboTipoLogin;
+    private UsuarioDAO usuarioDAO;
     /**
      * Creates new form inicial
      */
     public Inicial() {
         initComponents();
         controlMilitar = new ControlMilitarAdapter();
-        
-        
+        mapComboTipoLogin = new HashMap<>();
+        mapComboTipoLogin.put("Unidade", 1);
+        mapComboTipoLogin.put("Diretoria", 2);
+        mapComboTipoLogin.put("SCO", 3);
+        usuarioDAO = new UsuarioDAO();
         //TEstes carregamento militarAdapter
         /*
         //Busca Militar Adaptado por ID
@@ -43,6 +56,17 @@ public class Inicial extends javax.swing.JFrame {
         }
         */
     }
+    
+    public int getIdTipoLogin(String tipoLogin){
+        for (Map.Entry<String, Integer> entry : mapComboTipoLogin.entrySet()) {
+            String key = entry.getKey();
+            Integer idTipoLogin = entry.getValue();
+            if(tipoLogin.equals(key)){
+                return idTipoLogin;
+            }
+        }
+        return 0;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,13 +79,13 @@ public class Inicial extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         lbl_tit_sdro = new javax.swing.JLabel();
-        cmb_tipo = new javax.swing.JComboBox();
+        jcomboTipoLogin = new javax.swing.JComboBox();
         lbl_login = new javax.swing.JLabel();
         lbl_senha = new javax.swing.JLabel();
-        txt_login = new javax.swing.JTextField();
+        txtLogin = new javax.swing.JTextField();
         lbl_tipo = new javax.swing.JLabel();
-        txp_senha = new javax.swing.JPasswordField();
-        btn_logar = new javax.swing.JButton();
+        txtSenha = new javax.swing.JPasswordField();
+        btnLogar = new javax.swing.JButton();
         btn_config = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -74,10 +98,10 @@ public class Inicial extends javax.swing.JFrame {
         lbl_tit_sdro.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
         lbl_tit_sdro.setText("SDRO-CBMES");
 
-        cmb_tipo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecione", "Diretoria", "Unidade", "SCO" }));
-        cmb_tipo.addActionListener(new java.awt.event.ActionListener() {
+        jcomboTipoLogin.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Selecione", "Diretoria", "Unidade", "SCO" }));
+        jcomboTipoLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmb_tipoActionPerformed(evt);
+                jcomboTipoLoginActionPerformed(evt);
             }
         });
 
@@ -85,30 +109,30 @@ public class Inicial extends javax.swing.JFrame {
 
         lbl_senha.setText("senha");
 
-        txt_login.addActionListener(new java.awt.event.ActionListener() {
+        txtLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_loginActionPerformed(evt);
+                txtLoginActionPerformed(evt);
             }
         });
 
         lbl_tipo.setText("tipo");
 
-        txp_senha.setText("jPasswordField1");
-        txp_senha.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtSenha.setText("jPasswordField1");
+        txtSenha.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                txp_senhaFocusGained(evt);
+                txtSenhaFocusGained(evt);
             }
         });
-        txp_senha.addMouseListener(new java.awt.event.MouseAdapter() {
+        txtSenha.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txp_senhaMouseClicked(evt);
+                txtSenhaMouseClicked(evt);
             }
         });
 
-        btn_logar.setText("logar");
-        btn_logar.addActionListener(new java.awt.event.ActionListener() {
+        btnLogar.setText("logar");
+        btnLogar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_logarActionPerformed(evt);
+                btnLogarActionPerformed(evt);
             }
         });
 
@@ -138,9 +162,9 @@ public class Inicial extends javax.swing.JFrame {
                                 .addComponent(lbl_login)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txt_login)
-                            .addComponent(cmb_tipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txp_senha, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)))
+                            .addComponent(txtLogin)
+                            .addComponent(jcomboTipoLogin, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)))
                     .addComponent(lbl_tit_sdro, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -150,7 +174,7 @@ public class Inicial extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(254, 254, 254)
-                        .addComponent(btn_logar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnLogar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
                         .addComponent(btn_config)))
                 .addGap(48, 48, 48))
@@ -163,18 +187,18 @@ public class Inicial extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_login)
-                    .addComponent(txt_login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_senha)
-                    .addComponent(txp_senha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmb_tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jcomboTipoLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_tipo))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_logar)
+                    .addComponent(btnLogar)
                     .addComponent(btn_config))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addComponent(jLabel1))
@@ -186,30 +210,56 @@ public class Inicial extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txt_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_loginActionPerformed
+    private void txtLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_loginActionPerformed
+    }//GEN-LAST:event_txtLoginActionPerformed
 
-    private void txp_senhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txp_senhaMouseClicked
+    private void txtSenhaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtSenhaMouseClicked
         
-    }//GEN-LAST:event_txp_senhaMouseClicked
+    }//GEN-LAST:event_txtSenhaMouseClicked
 
-    private void txp_senhaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txp_senhaFocusGained
-        txp_senha.setText("");
-    }//GEN-LAST:event_txp_senhaFocusGained
+    private void txtSenhaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtSenhaFocusGained
+        txtSenha.setText("");
+    }//GEN-LAST:event_txtSenhaFocusGained
 
-    private void cmb_tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmb_tipoActionPerformed
+    private void jcomboTipoLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcomboTipoLoginActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cmb_tipoActionPerformed
+    }//GEN-LAST:event_jcomboTipoLoginActionPerformed
 
-    private void btn_logarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_logarActionPerformed
+    private void btnLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogarActionPerformed
         //validação de login e senha!
-        Principal principal = new Principal();
-        principal.iniializa(controlMilitar);
-        principal.setVisible(true);
-        this.setVisible(false);
+        
+        String login = txtLogin.getText();
+        String senha = txtSenha.getText();
+        Usuario usuario = usuarioDAO.checaLogin(login, senha);
+        if(usuario != null){
+            Sessao sessao = Sessao.getInstancia();
+            String tipoLoginJCombo = jcomboTipoLogin.getSelectedItem().toString();
+            int idTipoLogin = getIdTipoLogin(tipoLoginJCombo);
+            if(idTipoLogin == usuario.getTipoLogin()){
+                if(idTipoLogin == 1){// Login feito por Unidade
+                    Unidade unidade = usuario.getIdmilitar().getIdunidade();
+                    sessao.setUnidade(unidade);
+                }
+                
+                sessao.setTipoLogin(idTipoLogin);
+                
+                Principal principal = new Principal();
+                principal.inicializa(controlMilitar);
+                principal.setVisible(true);
+                this.setVisible(false);
+            }
+            else{
+               JOptionPane.showMessageDialog(null, "Login não permitido!!! Por favor selecione o Tipo correspondente."); 
+            }
+        }
+        else{
+             JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos!");
+        }
+        
+      
        
-    }//GEN-LAST:event_btn_logarActionPerformed
+    }//GEN-LAST:event_btnLogarActionPerformed
 
     private void btn_configActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_configActionPerformed
         // TODO add your handling code here:
@@ -252,16 +302,16 @@ public class Inicial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnLogar;
     private javax.swing.JButton btn_config;
-    private javax.swing.JButton btn_logar;
-    private javax.swing.JComboBox cmb_tipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JComboBox jcomboTipoLogin;
     private javax.swing.JLabel lbl_login;
     private javax.swing.JLabel lbl_senha;
     private javax.swing.JLabel lbl_tipo;
     private javax.swing.JLabel lbl_tit_sdro;
-    private javax.swing.JPasswordField txp_senha;
-    private javax.swing.JTextField txt_login;
+    private javax.swing.JTextField txtLogin;
+    private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 }

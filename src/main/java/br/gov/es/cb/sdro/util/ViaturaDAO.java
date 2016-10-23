@@ -32,13 +32,12 @@ public class ViaturaDAO extends AbstractDAO<Viatura> {
         return listaViaturas;
     }
 
-    public List<Viatura> buscaViaturasDisponiveis() {
+    public List<Viatura> buscaViaturasDisponiveisUnidade(Unidade unidade) {
         Unidade un = new Unidade();
-        un.setIdunidade(2);
         busca = "Viatura.findAllDisponiveis";
         parametro = "idUnidade";
         query = em.createNamedQuery(busca);
-        query.setParameter(parametro, un);
+        query.setParameter(parametro, unidade);
         List<Viatura> listaViaturas = query.getResultList();;
         return listaViaturas;
     }

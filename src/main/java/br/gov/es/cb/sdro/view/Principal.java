@@ -6,10 +6,12 @@
 package br.gov.es.cb.sdro.view;
 
 import br.gov.es.cb.sdro.control.ControlMilitarAdapter;
+import br.gov.es.cb.sdro.util.Sessao;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import br.gov.es.cb.sdro.view.TelaAlocacao;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Heitor
@@ -17,13 +19,13 @@ import br.gov.es.cb.sdro.view.TelaAlocacao;
 public class Principal extends javax.swing.JFrame {
 
     private ControlMilitarAdapter controlMilitar;
-
+    private Sessao sessao;
     /**
      * Creates new form principal
      */
     public Principal() {
         initComponents();
-        
+        sessao = Sessao.getInstancia();
        
     }
 
@@ -141,8 +143,13 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         try {
-            // TODO add your handling code here:
-            jDesktopPane1.add(new TelaEquipamento());
+            int tipoLogin = sessao.getTipoLogin();
+            if(tipoLogin == 1){ // somente login de Unidade permitido
+                jDesktopPane1.add(new TelaEquipamento());
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Acesso não permitido!!!");
+            }
         } catch (Exception ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -150,10 +157,16 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
          try {
-            // TODO add your handling code here:
-            TelaAlocacao telaAlocacao = TelaAlocacao.getInstancia();
-            telaAlocacao.setVisible(true);
-            jDesktopPane1.add(telaAlocacao);
+            int tipoLogin = sessao.getTipoLogin();
+            if(tipoLogin == 1){ // somente login de Unidade permitido
+                TelaAlocacao telaAlocacao = TelaAlocacao.getInstancia();
+                telaAlocacao.setVisible(true);
+                jDesktopPane1.add(telaAlocacao);
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Acesso não permitido!!!");
+            }
+           
         } catch (Exception ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -162,7 +175,14 @@ public class Principal extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         try {
-            jDesktopPane1.add(new TelaViatura());
+             int tipoLogin = sessao.getTipoLogin();
+            if(tipoLogin == 1){ // somente login de Unidade permitido
+                jDesktopPane1.add(new TelaViatura());
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Acesso não permitido!!!");
+            }
+            
         } catch (Exception ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -220,7 +240,7 @@ public class Principal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
 
-    public void iniializa(ControlMilitarAdapter controlMilitar){
+    public void inicializa(ControlMilitarAdapter controlMilitar){
         this.controlMilitar = controlMilitar;
     }
 }
