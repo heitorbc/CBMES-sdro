@@ -15,4 +15,4 @@ notifications:
   slack:
     rooms:
       - cbmes:7uVHsOCDDTAxADIGyVa4pe0d#general
-- cbmes:7uVHsOCDDTAxADIGyVa4pe0d#random
+      - cbmes:7uVHsOCDDTAxADIGyVa4pe0d#random
