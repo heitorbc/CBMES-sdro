@@ -1,0 +1,18 @@
+language: java
+
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  - openjdk6
+
+script:
+  - jdk_switcher use oraclejdk8
+  - # do stuff with Java 8
+  - jdk_switcher use oraclejdk7
+  - # do stuff with Java 7
+
+notifications:
+  slack:
+    rooms:
+      - cbmes:7uVHsOCDDTAxADIGyVa4pe0d#general
+- cbmes:7uVHsOCDDTAxADIGyVa4pe0d#random
