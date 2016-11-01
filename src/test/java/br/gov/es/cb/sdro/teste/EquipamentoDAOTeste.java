@@ -21,17 +21,19 @@ import static org.junit.Assert.assertThat;
 public class EquipamentoDAOTeste extends AbstractDAO<Equipamento>{
     private boolean resultado;
     EquipamentoDAO equipamentoDAO;
+    Equipamento obj;
 
     public EquipamentoDAOTeste() throws Exception {
         equipamentoDAO =  new EquipamentoDAO();
     }
     
     @Given("^eu tenho o objeto equipamento (\\d+)$")
-        public void euTenhoOObjeto(int arg1, int arg2) throws Throwable {
+    public void euTenhoOObjeto() throws Throwable {
+        obj = new Equipamento();
     }
     
     @When("^eu quero realocar$")
-    public void euQueroRealocar(Equipamento obj) throws Throwable {
+    public void euQueroRealocar() throws Throwable {
         this.resultado = equipamentoDAO.updateIsAlocado(obj);
     }
     

@@ -52,7 +52,7 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "idmilitar", referencedColumnName = "idmilitar")
     @ManyToOne(optional = false)
     private Militar idmilitar;
-
+    
     public Militar getIdmilitar() {
         return idmilitar;
     }
