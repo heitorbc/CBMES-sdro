@@ -372,8 +372,8 @@ public class TelaUnidades extends javax.swing.JInternalFrame {
         aba_altera_exclui.setSelectedIndex(1);
         unidadeSelecionada = listaUnidade.get(tbl_unidades.getSelectedRow());
         txt_nome_unidade.setText(unidadeSelecionada.getNome());
-        cmb_postograd_cmt.setSelectedIndex(controlMilitar.getMilitarbyId(unidadeSelecionada.getIdcomandante()).getPosto_graduacao());
-        cmb_postograd_subcmt.setSelectedIndex(controlMilitar.getMilitarbyId(unidadeSelecionada.getIdsubcomandante()).getPosto_graduacao());
+        cmb_postograd_cmt.setSelectedIndex(controlMilitar.getMilitarbyId(unidadeSelecionada.getIdcomandante()).getPostoGraduacao());
+        cmb_postograd_subcmt.setSelectedIndex(controlMilitar.getMilitarbyId(unidadeSelecionada.getIdsubcomandante()).getPostoGraduacao());
         limpaCamposMilitar();
         cmb_mil_cmt.addItem(controlMilitar.getMilitarbyId(unidadeSelecionada.getIdcomandante()).getNome());
         cmb_mil_subcmt.addItem(controlMilitar.getMilitarbyId(unidadeSelecionada.getIdsubcomandante()).getNome());

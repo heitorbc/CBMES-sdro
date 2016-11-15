@@ -6,7 +6,6 @@
 package br.gov.es.cb.sdro.view;
 
 import br.gov.es.cb.sdro.control.ControlMilitarAdapter;
-import br.gov.es.cb.sdro.model.Militar;
 import br.gov.es.cb.sdro.model.Unidade;
 import br.gov.es.cb.sdro.model.Usuario;
 import br.gov.es.cb.sdro.util.Sessao;
@@ -21,7 +20,7 @@ import javax.swing.JOptionPane;
  * @author Heitor
  */
 public class Inicial extends javax.swing.JFrame {
-    private ControlMilitarAdapter controlMilitar;
+    ControlMilitarAdapter controlMilitar;
     private HashMap<String,Integer> mapComboTipoLogin;
     private UsuarioDAO usuarioDAO;
     /**

@@ -9,11 +9,8 @@ import br.gov.es.cb.sdro.model.Equipamento;
 import br.gov.es.cb.sdro.model.Status;
 import br.gov.es.cb.sdro.util.EquipamentoDAO;
 import br.gov.es.cb.sdro.util.StatusDAO;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -39,7 +36,7 @@ public class TelaEquipamentosAlocacao extends javax.swing.JFrame {
         equipamentoDAO = new EquipamentoDAO();
         // lstEquipamentos = new List<Equipamento>();
         addTabela();
-        this.setVisible(true);
+        //this.setVisible(true);
     }
 
     public void addTabela() throws Exception {

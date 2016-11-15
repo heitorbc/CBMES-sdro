@@ -14,15 +14,12 @@ import br.gov.es.cb.sdro.util.ChecaSimilaridadeString;
 import br.gov.es.cb.sdro.util.EquipamentoDAO;
 import br.gov.es.cb.sdro.util.Sessao;
 import br.gov.es.cb.sdro.util.StatusDAO;
-import java.text.AttributedCharacterIterator;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -66,29 +63,6 @@ public class TelaEquipamento extends javax.swing.JInternalFrame {
         
     }
     
-//    public void populaTabela(){
-//        DataFactory df = new DataFactory();
-//        
-//        for (int i = 0; i < 1500000; i++) {
-//            Equipamento eq = new Equipamento();
-//            String name = df.getRandomText(3, 10);
-//            String marca = df.getRandomText(3, 10);
-//            eq.setNome(name);
-//            eq.setMarca(marca);
-//            Status st = new Status();
-//            st.setIdstatus(df.getNumberBetween(1, 4));
-//            eq.setIdstatus(st);
-//            Viatura vt = new Viatura();
-//            vt.setIdviatura(df.getNumberBetween(1, 1500000));
-//            eq.setIdviatura(vt);
-//            Unidade un = new Unidade();
-//            un.setIdunidade(df.getNumberBetween(1, 10));
-//            eq.setIdunidade(un);
-//            eq.setIsalocado(df.chance(50));
-//            equipamentoDAO.save(eq);
-//            System.out.println(i);
-//        }
-//    }
     
     public HashMap getMapStatus(List<Status> lstStatus) {
         HashMap<String, Integer> mapStatus = new HashMap<>();
@@ -434,13 +408,8 @@ public class TelaEquipamento extends javax.swing.JInternalFrame {
             String statusdescricao = jComboStatusAlterar.getSelectedItem().toString();
             int id = getIdStatus(statusdescricao);
             status.setIdstatus(id);
-           // Unidade unidade = new Unidade();
-            //unidade.setIdunidade();
             Equipamento equipamento = new Equipamento();
             equipamento.setIdunidade(sessao.getUnidade());
-            Viatura viatura = new Viatura();
-//       viatura.setIdviatura(0);
-//       equipamento.setIdviatura(viatura);
             equipamento.setIdequipamento(codigo);
             equipamento.setNome(txtNomeAlterar.getText());
             equipamento.setMarca(txtMarcaAlterar.getText());
@@ -543,18 +512,14 @@ public class TelaEquipamento extends javax.swing.JInternalFrame {
             int linha = jTableEquipamentos.getSelectedRow();
             codigo = Integer.parseInt(tableEquipamentos.getValueAt(linha, 0).toString());
             Equipamento eq = new Equipamento();
-
             eq.setIdequipamento(codigo);
-            if(equipamentoDAO.remove(eq)){
-                JOptionPane.showMessageDialog(null,"Equipamento Excluido com sucesso!");
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"Erro ao Excluir Equipamento");
-            }
+            equipamentoDAO.remove(eq);
+            JOptionPane.showMessageDialog(null,"Equipamento Excluido com sucesso!");
             addTabela();
             limparCamposAlterar();
         } catch (Exception ex) {
             Logger.getLogger(TelaEquipamento.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,"Erro ao Excluir Equipamento");
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
