@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.gov.es.cb.sdro.model;
 
 import java.io.Serializable;
@@ -12,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -26,6 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
+    @NamedQuery(name = "Usuario.checaLogin", query = "SELECT u FROM Usuario u WHERE u.login = :login and u.senha = :senha"),
     @NamedQuery(name = "Usuario.findByIdusuario", query = "SELECT u FROM Usuario u WHERE u.idusuario = :idusuario"),
     @NamedQuery(name = "Usuario.findByLogin", query = "SELECT u FROM Usuario u WHERE u.login = :login"),
     @NamedQuery(name = "Usuario.findBySenha", query = "SELECT u FROM Usuario u WHERE u.senha = :senha"),
@@ -46,7 +44,14 @@ public class Usuario implements Serializable {
     @Basic(optional = false)
     @Column(name = "tipo_login")
     private int tipoLogin;
+    @JoinColumn(name = "idmilitar", referencedColumnName = "idmilitar")
+    @ManyToOne(optional = false)
+    private Militar idmilitar;
 
+    public Militar getIdmilitar() {
+        return idmilitar;
+    }
+    
     public Usuario() {
     }
 
@@ -102,7 +107,6 @@ public class Usuario implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
         if (!(object instanceof Usuario)) {
             return false;
         }

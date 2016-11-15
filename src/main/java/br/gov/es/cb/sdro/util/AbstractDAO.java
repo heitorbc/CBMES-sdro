@@ -11,11 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-/**
- *
- * @author Heitor
- * @param <T>
- */
+
 public class AbstractDAO<T> implements DAO<T> {
 
     protected EntityManagerFactory emf = Persistence.createEntityManagerFactory("br.gov.es.cb_sdro-desk_jar_1.0-SNAPSHOTPU");
@@ -24,17 +20,16 @@ public class AbstractDAO<T> implements DAO<T> {
     public String busca, parametro;
 
     @Override
-    public boolean save(T objeto) {
+    public boolean save(T objeto){
         try {
             em.getTransaction().begin();
             em.persist(objeto);
             em.getTransaction().commit();
             return true;
         } catch (Exception ex) {
-            ex.printStackTrace();
             em.getTransaction().rollback();
+            throw ex;
         }
-        return false;
     }
 
     @Override
@@ -68,8 +63,9 @@ public class AbstractDAO<T> implements DAO<T> {
     }
 
     @Override
-    public boolean remove(T objeto) {
+    public void remove(T objeto) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 
 }

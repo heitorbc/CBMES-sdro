@@ -6,6 +6,7 @@
 package br.gov.es.cb.sdro.util;
 
 import br.gov.es.cb.sdro.model.Militar;
+import br.gov.es.cb.sdro.model.Unidade;
 import java.util.List;
 import javax.persistence.NoResultException;
 
@@ -30,7 +31,16 @@ public class MilitarDAO extends AbstractDAO<Militar> {
         listaMilitars = (List<Militar>) buscaListaSemParametro();
         return listaMilitars;
     }
-
+     public List<Militar> buscaMilitaresDisponiveisUnidade(Unidade unidade) {
+        busca = "Militar.disponiveisUnidade";
+        parametro = "idunidade";
+        query = em.createNamedQuery(busca);
+        query.setParameter(parametro, unidade);
+        List<Militar> listaMilitares = query.getResultList();
+        
+        return listaMilitares;
+    }
+    
     public List<Militar> buscaMilitarsPorGraducao(String nome) {
         busca = "Militar.findByPostoGraducao";
         parametro = "idgraducao";
